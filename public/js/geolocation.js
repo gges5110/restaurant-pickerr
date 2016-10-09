@@ -6,12 +6,10 @@ if (!navigator.geolocation) {
     $('.no-browser-support').addClass("visible");
 
 } else {
-    console.log("inside!");
     $(document).on('click', '.find-me',function(e) {
 
 
         navigator.geolocation.getCurrentPosition(function(position) {
-            console.log("button");
             // Get the coordinates of the current possition.
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;

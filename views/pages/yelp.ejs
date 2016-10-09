@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <% include ../partials/header.ejs %>
+      <script type="text/javascript" src="/js/yelp_query.js"></script>
+    </head>
+
+    <body>
+
+        <% include ../partials/nav.ejs %>
+
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="jumbotron">
+                        <h1>Yelp Demo!</h1>
+                        <div class="container">
+
+                            <div class="col-md-12">
+                                <p>This page will show the nearby restaurants from Yelp!</p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12 row-margin">
+                    <form action="javascript:void(0);">
+                        <div class="form-group">
+                            <label for="term_input" class="col-sm-2 col-sm-offset-2 control-label">Restaurant Type</label>
+                            <div class="col-sm-6">
+                                <input type="text" id="term_input" name="lat" class="form-control" placeholder="Enter restaurant type.">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="find_btn">Find</button>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>Yelp Results</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped table-hover" style="text-align: left" id="yelp_table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Rating</th>
+                                        <th>Catagory</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </body>
+</html>

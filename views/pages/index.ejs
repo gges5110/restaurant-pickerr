@@ -1,61 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <% include ../partials/header.ejs %>
-</head>
+    <head>
+      <% include ../partials/header.ejs %>
+    </head>
 
-<body>
+    <body>
 
-  <% include ../partials/nav.ejs %>
+        <% include ../partials/nav.ejs %>
 
-<!-- <div id="map" style="width:100%;height:500px"></div>
+        <div class="container">
 
-<script>
-function myMap() {
-  var mapCanvas = document.getElementById("map");
-  var mapOptions = {
-    center: new google.maps.LatLng(51.5, -0.2),
-    zoom: 10
-  }
-  var map = new google.maps.Map(mapCanvas, mapOptions);
-}
-</script>
+            <div class="jumbotron text-center">
+                <div class="container">
+                    <h1>Weclome to Restaurant Pickerr!</h1>
+                    <div class="col-md-12">
+                        <p>This website will help you pick a restaurant for you!</p>
+                    </div>
+                </div>
+            </div>
 
-<script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script> -->
-
-
-
-<div class="container">
-
-  <h1>Geolocation Demo</h1>
-
-  <form id="geocoding_form" class="form-horizontal">
-    <div class="form-group">
-      <div class="col-xs-12 col-md-6 col-md-offset-3">
-        <button type="button" class="find-me btn btn-info btn-block">Find My Location</button>
-      </div>
-    </div>
-  </form>
-
-  <p class="no-browser-support">Sorry, the Geolocation API isn't supported in Your browser.</p>
-  <p class="coordinates">Latitude: <b class="latitude">42</b> Longitude: <b class="longitude">32</b></p>
-
-  <div class="map-overlay">
-    <div id="map"></div>
-  </div>
-
-</div>
-
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7twsePKQ3XBR62UaoY1DiROnh_Fxf5CA">
-</script>
-
-
-<div class="jumbotron text-center">
-  <div class="container">
-
-  </div>
-</div>
-
-</body>
+        <div>
+    </body>
 </html>

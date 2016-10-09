@@ -31,28 +31,89 @@ app.get('/getGeocode', function(request, response) {
     response.render('pages/getGeocode');
 });
 
-app.get('/yelp/:userId', function(request, response) {
-    var lat = 30.289;
-    var lon = -97.752;
-    latlon = lat.toString() + "," + lon.toString();
+app.get('/yelp', function(request, response) {
+    response.render('pages/yelp');
+});
+
+app.get('/api/yelp_detailed', function(request, response) {
+    var lat = request.query.lat;
+    var lng = request.query.lng;
+    latlng = lat.toString() + "," + lng.toString();
+    var location = request.query.zipcode;
     // See http://www.yelp.com/developers/documentation/v2/search_api
-    yelp.search({ term: 'Japanese food', cll: latlon })
+    yelp.search(
+        {   term: 'Japanese food',
+            location: location,
+            cll: latlng,
+            limit: 5
+    })
     .then(function (data) {
-      console.log(data);
-      response.send(data);
+        response.send(data);
     })
     .catch(function (err) {
-      console.error(err);
+        console.error(err);
     });
 
 
 });
 
-app.get('/geocode', function(request, response) {
+app.get('/api/yelp', function(request, response) {
+    var lat = request.query.lat;
+    var lng = request.query.lng;
+    latlng = lat.toString() + "," + lng.toString();
+    var location = request.query.zipcode;
+    // See http://www.yelp.com/developers/documentation/v2/search_api
+    var term = 'Japanese food';
+    if (request.query.term) {        
+        term = request.query.term;
+        console.log("New term: " + term);
+    }
+
+    yelp.search(
+        {   term: term,
+            location: location,
+            cll: latlng,
+            limit: 5
+    })
+    .then(function (data) {
+        // TODO: parse JSON here.
+
+        var myObject = {};
+        myObject.total = data.total;
+
+        items = [];
+        for (var i = 0, len = data.businesses.length; i < len; ++i) {
+            var temp = {};
+            temp.rating = data.businesses[i].rating;
+            temp.name = data.businesses[i].name;
+            temp.categories = [];
+            for (var j = 0, len_cat = data.businesses[i].categories.length; j < len_cat; ++j) {
+                temp.categories.push(data.businesses[i].categories[j][0]);
+            }
+            temp.address = "";
+            for (var j = 0; j < data.businesses[i].location.display_address.length; ++j) {
+                temp.address += data.businesses[i].location.display_address[j] + " ";
+            }
+
+            items.push(temp);
+        }
+        myObject.results = items;
+
+        // console.log(data);
+        response.send(myObject);
+    })
+    .catch(function (err) {
+        console.error(err);
+    });
+
+
+});
+
+app.get('/api/geocode', function(request, response) {
     var latitude = request.query.lat;
     var longitude = request.query.long;
-    console.log(latitude);
-    console.log(longitude);
+    console.log("/api/geocode: latitude = " + latitude);
+    console.log(", longitude = " + longitude);
 
     var options = {
         host: 'maps.googleapis.com',
@@ -67,6 +128,7 @@ app.get('/geocode', function(request, response) {
         });
 
         res.on('end', function () {
+            // TODO: parse JSON here.
             var jsonObject = JSON.parse(str);
             response.send(jsonObject);
         });
