@@ -1,5 +1,5 @@
 $(function() {
     toastr.options = {
-        "positionClass": "toast-bottom-left"
+        "positionClass": "toast-top-right"
     }
 });

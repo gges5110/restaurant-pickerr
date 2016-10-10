@@ -49,8 +49,13 @@ var yelp_query = (function() {
         },
          success: function(data) {
              $('#yelp_table>tbody tr').remove();
-             toastr.info("Found total of " + data.total + " results.");
-             $('#number_of_results').text(data.total);
+             toastr.success("Found total of " + data.total + " results.");
+
+             if ($('#limit_input').val() != "") {
+                 $('#number_of_results').text($('#limit_input').val());
+             } else {
+                 $('#number_of_results').text(5);
+             }
 
              if (!$('#term_input').val()) {
                  $('#category_label').text("Japanese Food");
@@ -65,7 +70,7 @@ var yelp_query = (function() {
              var items = [];
              for (var i = 0; i < data.results.length; ++i) {
                  items.push( "<tr> ");
-                 items.push( "<td>" + data.results[i].name +"</td>");
+                 items.push( "<td><a href='" + data.results[i].url + "' target='_blank'>" + data.results[i].name +"</a></td>");
                  items.push( "<td> <img src=" + data.results[i].rating_img_url + "> </td>");
                  items.push( "<td>");
                  for (var j = 0; j < data.results[i].categories.length; ++j) {
@@ -87,30 +92,31 @@ var yelp_query = (function() {
 });
 
 $(document).on('click', '#find_btn', function(event) {
-    zipcode = $('#location_input').val();
-
-    if (zipcode == "") {
-        // Check if the browser has support for the Geolocation API
-        if (!navigator.geolocation) {
-            toastr.warning('Your browser does not support location finding!');
-        } else {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                // Get the coordinates of the current possition.
-                lat = position.coords.latitude;
-                lng = position.coords.longitude;
-                // toastr.success('Your latitude is ' + lat + ', ' + ' longitude is ' + lng);
-
-                // Get zipcode.
-                geocode_callback();
-
-            });
-        }
+    if (($('#limit_input').val() > 20 || $('#limit_input').val() < 1) && $('#limit_input').val() != "") {
+        toastr.warning("The number of search results is incorrect.");
     } else {
-        toastr.success("You specified the location: " + zipcode);
-        // Location is already specified by the user, use it.
-        yelp_query();
+        zipcode = $('#location_input').val();
+
+        if (zipcode == "") {
+            // Check if the browser has support for the Geolocation API
+            if (!navigator.geolocation) {
+                toastr.warning('Your browser does not support location finding!');
+            } else {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Get the coordinates of the current possition.
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    // toastr.success('Your latitude is ' + lat + ', ' + ' longitude is ' + lng);
+
+                    // Get zipcode.
+                    geocode_callback();
+
+                });
+            }
+        } else {
+            toastr.success("You specified the location: " + zipcode);
+            // Location is already specified by the user, use it.
+            yelp_query();
+        }
     }
-
-
-
 });
