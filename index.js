@@ -40,12 +40,12 @@ app.get('/api/yelp_detailed', function(request, response) {
     var lng = request.query.lng;
     latlng = lat.toString() + "," + lng.toString();
     var location = request.query.zipcode;
+
     // See http://www.yelp.com/developers/documentation/v2/search_api
     yelp.search(
         {   term: 'Japanese food',
             location: location,
             cll: latlng,
-            limit: 5
     })
     .then(function (data) {
         response.send(data);
@@ -68,6 +68,10 @@ app.get('/api/yelp', function(request, response) {
         lng = request.query.lng
     }
 
+    var sort_mode = 0;
+    if (request.query.sort_mode) {
+        sort_mode = request.query.sort_mode;
+    }
 
     latlng = lat.toString() + "," + lng.toString();
 
@@ -89,7 +93,8 @@ app.get('/api/yelp', function(request, response) {
         {   term: term,
             location: location,
             cll: latlng,
-            limit: limit
+            limit: limit,
+            sort: sort_mode
     })
     .then(function (data) {
         // TODO: parse JSON here.

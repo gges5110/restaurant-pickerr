@@ -44,7 +44,8 @@ var yelp_query = (function() {
             lng: lng,
             zipcode: zipcode,
             term: $('#term_input').val(),
-            limit: $('#limit_input').val()
+            limit: $('#limit_input').val(),
+            sort_mode: $('#sort_mode_input').val()
         },
          success: function(data) {
              $('#yelp_table>tbody tr').remove();

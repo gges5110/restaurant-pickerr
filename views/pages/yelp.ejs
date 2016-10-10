@@ -46,8 +46,18 @@
                                     <div class="form-group">
                                         <label for="limit_input" class="control-label">How many?</label>
                                         <input type="number" id="limit_input" name="limit_input" class="form-control" placeholder="Enter the number of places you want to limit to."/>
-                                        <small id="limit_help" class="form-text text-muted">The default is 5 restaurants.</small>
+                                        <small id="limit_help" class="form-text text-muted">The default is 5 restaurants. The maximum is 20.</small>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="sort_mode_input" class="control-label">Sort Mode</label>
+                                        <select class="form-control" name="sort_mode_input" id="sort_mode_input">
+                                            <option value="0">Best Match</option>
+                                            <option value="1">Distance</option>
+                                            <option value="2">Highset Rating</option>
+                                        </select>
+                                    </div>
+
 
                                 </form>
                             </div>
