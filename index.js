@@ -58,22 +58,38 @@ app.get('/api/yelp_detailed', function(request, response) {
 });
 
 app.get('/api/yelp', function(request, response) {
-    var lat = request.query.lat;
-    var lng = request.query.lng;
+    var lat = 0;
+    var lng = 0;
+
+    if (request.query.lat) {
+        lat = request.query.lat;
+    }
+    if (request.query.lng) {
+        lng = request.query.lng
+    }
+
+
     latlng = lat.toString() + "," + lng.toString();
+
     var location = request.query.zipcode;
     // See http://www.yelp.com/developers/documentation/v2/search_api
     var term = 'Japanese food';
-    if (request.query.term) {        
+    if (request.query.term) {
         term = request.query.term;
         console.log("New term: " + term);
+    }
+
+    var limit = 5;
+    // console.log("request.query.limit = " + request.query.limit);
+    if (request.query.limit) {
+        limit = request.query.limit;
     }
 
     yelp.search(
         {   term: term,
             location: location,
             cll: latlng,
-            limit: 5
+            limit: limit
     })
     .then(function (data) {
         // TODO: parse JSON here.
