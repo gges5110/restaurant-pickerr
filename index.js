@@ -111,6 +111,8 @@ app.get('/api/yelp', function(request, response) {
                 temp.address += data.businesses[i].location.display_address[j] + " ";
             }
 
+            temp.rating_img_url = data.businesses[i].rating_img_url;
+
             items.push(temp);
         }
         myObject.results = items;

@@ -6,6 +6,7 @@ $(document).ready(function () {
 
 var lat, lng;
 var zipcode = "";
+var user_city = "";
 
 var geocode_callback = (function() {
     $.ajax({
@@ -24,6 +25,8 @@ var geocode_callback = (function() {
                    if (val.types.indexOf("postal_code") != -1) {
                        zipcode = val.long_name;
                        found = true;
+                   } else if (val.types.indexOf("locality") != -1) {
+                       user_city = val.long_name;
                    }
                });
                //    toastr.success('zipcode = ' + zipcode);
@@ -54,11 +57,15 @@ var yelp_query = (function() {
                  $('#category_label').text($('#term_input').val());
              }
 
+             if (user_city != "") {
+                 $('#location_label').text(user_city);
+             }
+
              var items = [];
              for (var i = 0; i < data.results.length; ++i) {
                  items.push( "<tr> ");
                  items.push( "<td>" + data.results[i].name +"</td>");
-                 items.push( "<td>" + data.results[i].rating +"</td>");
+                 items.push( "<td> <img src=" + data.results[i].rating_img_url + "> </td>");
                  items.push( "<td>");
                  for (var j = 0; j < data.results[i].categories.length; ++j) {
                      if (j < data.results[i].categories.length - 1) {
@@ -79,7 +86,7 @@ var yelp_query = (function() {
 });
 
 $(document).on('click', '#find_btn', function(event) {
-    zipcode = $('#location_input').val();    
+    zipcode = $('#location_input').val();
 
     if (zipcode == "") {
         // Check if the browser has support for the Geolocation API
