@@ -4,14 +4,14 @@ var app = express();
 
 //Lets load the mongoose module in our program
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-// Lets connect to our database using the DB server URL.
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/test');
-
-var User = require('./models/user.js');
-var Restaurant = require('./models/restaurant.js');
+// var mongoose = require('mongoose');
+// var Schema = mongoose.Schema;
+// // Lets connect to our database using the DB server URL.
+// mongoose.Promise = global.Promise;
+// mongoose.connect('mongodb://localhost/test');
+//
+// var User = require('./models/user.js');
+// var Restaurant = require('./models/restaurant.js');
 
 // app.use(express.cookieParser());
 // app.use(express.session({secret: '1234567890QWERTY'}));
