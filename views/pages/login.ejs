@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
       <% include ../partials/header.ejs %>
     </head>
 
     <body>
-
         <div class="container">
-        <% include ../partials/nav.ejs %>
-
-            <div class="jumbotron" style="margin-top: 15%;">
+            <% include ../partials/nav.ejs %>
+            <div class="jumbotron text-center" style="margin-top: 25%;">
                 <div class="container">
-                    <h1>Weclome to Restaurant Pickerr!</h1>
+                    <h1>Weclome to Bucketlist!</h1>
                     <div class="col-md-12">
-                        <p>
-                            This website will help you pick a restaurant! <br/>
-                            Go to Yelp Demo page and search for some restaurants!
-                        </p>
+                        <p>Here is the list of restaurants you saved!</p>
                     </div>
                 </div>
             </div>
@@ -26,9 +21,8 @@
                 $(document).ready(function () {
                     $(".nav li").removeClass("active");//this will remove the active class from
                                            //previously active menu item
-                    $('#nav_li_home').addClass('active');
+                    $('#nav_li_login').addClass('active');
                 });
             </script>
-            <% include ../partials/footer.ejs %>
     </body>
 </html>

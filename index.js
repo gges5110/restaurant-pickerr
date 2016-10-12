@@ -2,6 +2,20 @@ var express = require('express');
 var http = require('http');
 var app = express();
 
+//Lets load the mongoose module in our program
+
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+// Lets connect to our database using the DB server URL.
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/test');
+
+var User = require('./models/user.js');
+var Restaurant = require('./models/restaurant.js');
+
+// app.use(express.cookieParser());
+// app.use(express.session({secret: '1234567890QWERTY'}));
+
 var Yelp = require('yelp');
 
 var yelp = new Yelp({
@@ -19,6 +33,10 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+//------------------------------------
+//          TEMPLATE ROUTING
+//------------------------------------
+
 app.get('/', function(request, response) {
   response.render('pages/index');
 });
@@ -34,6 +52,66 @@ app.get('/getGeocode', function(request, response) {
 app.get('/yelp', function(request, response) {
     response.render('pages/yelp');
 });
+
+app.get('/bucketlist', function(request, response) {
+    response.render('pages/bucketlist');
+});
+
+app.get('/login', function(request, response) {
+    response.render('pages/login.ejs');
+});
+
+//------------------------------------
+//       DATABASE OPERATIONS
+//------------------------------------
+
+app.get('/db/user/create', function(request, response) {
+    var name = request.query.name;
+    var email = request.query.email;
+    var password = request.query.password;
+
+    var new_user = new User({
+        name: name,
+        username: email,
+        password: password,
+    });
+
+    new_user.save(function(err) {
+        if(err) {
+            console.log(err);
+            response.send({
+                message: err.errmsg
+            });
+        } else {
+            response.send({
+                message:'success'
+            });
+        }
+    });
+});
+
+app.get('/db/user/get', function(request, response) {
+    var email = request.query.email;
+
+    // get the user starlord55
+    User.find({ username: email }, function(err, user) {
+      if (err) throw err;
+
+      response.send({
+          message :'success',
+          name: user.name,
+          password: user.password
+      });
+
+      // object of the user
+      console.log(user);
+    });
+
+});
+
+//------------------------------------
+//              API ENDPOINT
+//------------------------------------
 
 app.get('/api/yelp_detailed', function(request, response) {
     var lat = request.query.lat;
@@ -160,6 +238,8 @@ app.get('/api/geocode', function(request, response) {
 
     http.request(options, callback).end();
 });
+
+
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

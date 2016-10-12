@@ -87,6 +87,7 @@ var yelp_query = (function() {
              }
 
              $('#yelp_table > tbody:last-child').append(items.join('\n'));
+             NProgress.done(true);
          }
     });
 });
@@ -95,6 +96,7 @@ $(document).on('click', '#find_btn', function(event) {
     if (($('#limit_input').val() > 20 || $('#limit_input').val() < 1) && $('#limit_input').val() != "") {
         toastr.warning("The number of search results is incorrect.");
     } else {
+        NProgress.start();
         zipcode = $('#location_input').val();
 
         if (zipcode == "") {
@@ -118,5 +120,6 @@ $(document).on('click', '#find_btn', function(event) {
             // Location is already specified by the user, use it.
             yelp_query();
         }
+
     }
 });
