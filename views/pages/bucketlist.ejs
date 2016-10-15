@@ -27,7 +27,7 @@
                     <div class="card">
                         <div class="card-block">
                             <h4 class="card-title">Your Bucket List</h4>
-                            <% if (restaurants) { %>
+                            <% if (login) { %>
                             <h6 class="card-subtitle text-muted">
                                 <span class="tag tag-default tag-pill" id="number_of_results"><%= restaurants.length %></span>
                             </h6>
@@ -44,7 +44,7 @@
                                 </thead>
 
                                 <tbody>
-                                    <% if (restaurants) { %>
+                                    <% if (login) { %>
 
                                     <% for(var i = 0; i < restaurants.length; ++i) { %>
                                     <tr tabindex="<%= i %>" class="list_table_row">
