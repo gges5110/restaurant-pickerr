@@ -31,7 +31,7 @@ var mongoose = require('mongoose');
 // var Schema = mongoose.Schema;
 // // Lets connect to our database using the DB server URL.
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/test' || 'mongodb://heroku_dm7pmptx:1pt03oaf97b0mm4742arqvhvpt@ds031975.mlab.com:31975/heroku_dm7pmptx');
+mongoose.connect('mongodb://gges5110:gges5110@ds031975.mlab.com:31975/heroku_dm7pmptx' || 'mongodb://localhost/test');
 
 var User = require('./models/user.js');
 var Restaurant = require('./models/restaurant.js');
