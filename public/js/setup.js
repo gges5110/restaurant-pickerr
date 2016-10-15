@@ -6,4 +6,5 @@ $(function() {
     NProgress.configure({ easing: 'ease', speed: 800 });
     NProgress.done(true);
 
+    $('[data-toggle="tooltip"]').tooltip()
 });

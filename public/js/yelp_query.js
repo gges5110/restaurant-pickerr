@@ -70,9 +70,11 @@ var yelp_query = (function() {
              var items = [];
              for (var i = 0; i < data.results.length; ++i) {
                  items.push( "<tr> ");
-                 items.push( "<td><a href='" + data.results[i].url + "' target='_blank'>" + data.results[i].name +"</a></td>");
-                 items.push( "<td> <img src=" + data.results[i].rating_img_url + "> </td>");
-                 items.push( "<td>");
+                 items.push( "<td hidden id='result_yelp_id_" + i + "'>" + data.results[i].yelp_id + "</td>");
+                 items.push( "<td hidden id='result_rating_" + i + "'>" + data.results[i].rating + "</td>");
+                 items.push( "<td> <a id='result_name_" + i + "' href='" + data.results[i].url + "' target='_blank'>" + data.results[i].name +"</a></td>");
+                 items.push( "<td> <img id='result_rating_img_url_" + i + "' src=" + data.results[i].rating_img_url + "> </td>");
+                 items.push( "<td id='result_categories_" + i + "'>");
                  for (var j = 0; j < data.results[i].categories.length; ++j) {
                      if (j < data.results[i].categories.length - 1) {
                          items.push(data.results[i].categories[j] + ", ");
@@ -80,15 +82,58 @@ var yelp_query = (function() {
                          items.push(data.results[i].categories[j]);
                      }
                  }
-                 items.push("</td>");
-                 items.push( "<td><a href='https://www.google.com/maps?q=" + encodeURIComponent(data.results[i].address) + "' target='_blank'>" + data.results[i].address +"</a></td>");
-
-                 items.push(" </tr> ");
+                 items.push( "</td>");
+                 items.push( "<td><a id='result_address_" + i + "' href='https://www.google.com/maps?q=" + encodeURIComponent(data.results[i].address) + "' target='_blank'>" + data.results[i].address +"</a></td>");
+                 items.push( "<td><form action='javascript:void(0);'><button type='submit' tabindex='" + i + "' class='btn btn-primary result_add_submit'>Add</button><form></td>")
+                 items.push( "</tr>");
              }
+
 
              $('#yelp_table > tbody:last-child').append(items.join('\n'));
              NProgress.done(true);
          }
+    });
+});
+
+$(document).on('click', '.result_add_submit', function(event) {
+    var index = $(this).attr('tabindex');
+
+    // Get all the inputs.
+    var yelp_id = $('#result_yelp_id_' + index).text();
+    var name = $('#result_name_' + index).text();
+    var url = $('#result_name_' + index).attr('href');
+    var rating = $('#result_rating_' + index).text();
+    var rating_img_url = $('#result_rating_img_url_' + index).attr('src');
+    var categories_text = $('#result_categories_' + index).text();
+    var address = $('#result_address_' + index).text();
+
+    var categories = categories_text.split(',');
+    // Process categories_text.
+    for (var i = 0; i < categories.length; ++i) {
+        categories[0] = categories[0].trim();
+    }
+
+    $.ajax({
+        url: '/db/restaurant/add_to_list',
+        method: "POST",
+        data: JSON.stringify({
+            email: $('#nav_email').attr('title'),
+            yelp_id: yelp_id,
+            name: name,
+            url: url,
+            rating: rating,
+            rating_img_url: rating_img_url,
+            categories: categories,
+            address: address
+        }),
+        contentType: 'application/json',
+        success: function(data) {
+            if (data.status === 'error') {
+                toastr.warning(data.message);
+            } else {
+                toastr.success(data.message);
+            }
+        }
     });
 });
 

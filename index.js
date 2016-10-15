@@ -1,20 +1,40 @@
 var express = require('express');
 var http = require('http');
+
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+
+var bodyParser = require('body-parser');
 var app = express();
+
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+
+
+app.use(cookieParser('ssshhhhh'));
+app.use(session({
+    secret: 'ssshhhhh',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        secure: false,
+        maxAge: 6000000
+    }
+}));
+// var my_session;
 
 //Lets load the mongoose module in our program
 
-// var mongoose = require('mongoose');
+var mongoose = require('mongoose');
 // var Schema = mongoose.Schema;
 // // Lets connect to our database using the DB server URL.
-// mongoose.Promise = global.Promise;
-// mongoose.connect('mongodb://localhost/test');
-//
-// var User = require('./models/user.js');
-// var Restaurant = require('./models/restaurant.js');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/test');
 
-// app.use(express.cookieParser());
-// app.use(express.session({secret: '1234567890QWERTY'}));
+var User = require('./models/user.js');
+var Restaurant = require('./models/restaurant.js');
 
 var Yelp = require('yelp');
 
@@ -38,74 +58,397 @@ app.set('view engine', 'ejs');
 //------------------------------------
 
 app.get('/', function(request, response) {
-  response.render('pages/index');
+    var login = false;
+    var email, name;
+    console.log("in!");
+    if (request.session && request.session.email && request.session.email != null) {
+        console.log("session: " + request.session);
+        console.log("email: " + request.session.email);
+        login = true;
+        email = request.session.email;
+        name = request.session.name;
+    }
+
+  response.render('pages/index', {
+      login: login,
+      email: email,
+      name: name
+  });
 });
 
 app.get('/geolocation', function(request, response) {
-    response.render('pages/geolocation');
+  response.render('pages/geolocation', {});
 });
 
 app.get('/getGeocode', function(request, response) {
     response.render('pages/getGeocode');
 });
 
+app.get('/user_settings', function(request, response) {
+    var login = false;
+    var email, name;
+    if (request.session && request.session.email) {
+        login = true;
+        email = request.session.email;
+        name = request.session.name;
+    }
+
+    response.render('pages/user_settings', {
+        login: login,
+        email: email,
+        name: name
+    });
+})
+
 app.get('/yelp', function(request, response) {
-    response.render('pages/yelp');
+    var login = false;
+    var email, name;
+    if (request.session && request.session.email) {
+        login = true;
+        email = request.session.email;
+        name = request.session.name;
+    }
+
+    response.render('pages/yelp', {
+        login: login,
+        email: email,
+        name: name
+    });
 });
 
 app.get('/bucketlist', function(request, response) {
-    response.render('pages/bucketlist');
+    var login = false;
+    var email, name;
+    if (request.session && request.session.email) {
+        login = true;
+        email = request.session.email;
+        name = request.session.name;
+    }
+
+    var restaurants = [];
+    // Query database and get bucket restaurants
+    User.findOne({email: email}).populate('restaurants').exec(function(err, user) {
+        if (err) {
+            console.log('err');
+        } else {
+            console.log("user res len = " + user.restaurants.length);
+            for (var i = 0; i < user.restaurants.length; ++i) {
+                restaurants.push(user.restaurants[i]);
+            }
+
+            response.render('pages/bucketlist', {
+                login: login,
+                email: email,
+                name: name,
+                restaurants: user.restaurants
+            });
+        }
+    });
+
 });
 
 app.get('/login', function(request, response) {
-    response.render('pages/login.ejs');
+    my_session = request.session;
+
+    var login = false;
+    var email, name;
+    if (my_session && my_session.email) {
+        login = true;
+        email = my_session.email;
+        name = my_session.name;
+    }
+
+    response.render('pages/login.ejs', {
+        login: login,
+        email: email,
+        name: name
+    });
+});
+
+app.post('/logout', function(request, response) {
+    my_session = request.session;
+
+    request.session.destroy(function(err) {
+        if (err) {
+            response.send({
+                msg: err
+            });
+        } else {
+
+            response.redirect('/login');
+        }
+    });
+    // request.logout();
+    request.session = null;
+
 });
 
 //------------------------------------
 //       DATABASE OPERATIONS
 //------------------------------------
 
-app.get('/db/user/create', function(request, response) {
-    var name = request.query.name;
-    var email = request.query.email;
-    var password = request.query.password;
+app.post('/db/user/create', function(request, response) {
+    var name = request.body.name;
+    var email = request.body.email;
+    var password = request.body.password;
 
-    var new_user = new User({
-        name: name,
-        username: email,
-        password: password,
-    });
+    console.log(email);
 
-    new_user.save(function(err) {
-        if(err) {
-            console.log(err);
+    // Find if the user exist.
+    User.find({email: email}).exec(function(err, data) {
+        if (data.length != 0) {
+            console.log("User found: " + data.length);
             response.send({
-                message: err.errmsg
+                message: 'You have already signed up before.',
+                status: 'error',
             });
         } else {
-            response.send({
-                message:'success'
+            console.log("email is unique");
+
+            var new_user = new User({
+                name: name,
+                email: email,
+                password: password
+            });
+
+            new_user.save(function(err) {
+                if(err) {
+                    console.log(err);
+                    response.send({
+                        message: err.errmsg
+                    });
+                } else {
+                    response.send({
+                        message:'success'
+                    });
+                }
             });
         }
     });
 });
 
-app.get('/db/user/get', function(request, response) {
-    var email = request.query.email;
+app.post('/db/user/login', function(request, response) {
+    // my_session = request.session;
+    var email = request.body.email;
+    var password = request.body.password;
 
     // get the user starlord55
-    User.find({ username: email }, function(err, user) {
-      if (err) throw err;
+    User.find({ email: email }, function(err, user) {
+      if (user.length == 0) {
+          console.log("user.length: " + user.length);
+          // Could not find the user.
+          response.send({
+              message :'Could not find the user or the password is incorrect.',
+              status: "error"
+          });
+      } else {
+          if (user[0].password === password) {
+              // Successfully login!
+              request.session.email = user[0].email;
+              request.session.name = user[0].name;
 
-      response.send({
-          message :'success',
-          name: user.name,
-          password: user.password
-      });
-
-      // object of the user
-      console.log(user);
+              response.redirect('/yelp');
+          } else {
+              // Wrong password.
+              console.log(user[0].password);
+              console.log(password);
+              response.send({
+                  message :'Could not find the user or the password is incorrect.',
+                  status: "error"
+              });
+          }
+      }
     });
+});
+
+app.post('/db/user/update_info', function(request, response) {
+    if (!check_session_email(request, response)) {
+        return;
+    }
+    var email = request.body.email;
+    var name = request.body.name;
+    var password = request.body.password;
+
+    User.findOne({email: email}).exec(function(err, user) {
+        if (!user) {
+            send_response(response, 'Cannot find this user!', 0);
+            return;
+        } else {
+            var name_changed = false;
+            var password_changed = false;
+            if (user.name != name) {
+                name_changed = true;
+            }
+            if (user.password != password) {
+                password_changed = true;
+            }
+            user.name = name;
+            user.password = password;
+
+            user.save(function(err) {
+                if (err) {
+                    send_response(response, 'Error when saving user!', 0);
+                    return;
+                } else {
+                    if (password_changed && name_changed) {
+                        send_response(response, 'Password and Username are changed!', 1);
+                    } else if (password_changed) {
+                        send_response(response, 'Password is changed!', 1);
+                    } else if (name_changed) {
+                        send_response(response, 'Username is changed!', 1);
+                    } else {
+                        send_response(response, 'Nothing is changed!', 1);
+                    }
+                    return;
+                }
+            })
+        }
+    });
+});
+
+app.post('/db/user/delete', function(request, response) {
+    if (!check_session_email(request, response)) {
+        return;
+    }
+
+    var email = request.body.email;
+
+    User.findOne({email: email}).exec(function(err, user) {
+        if (!user) {
+            send_response(response, 'No user is found.', 0);
+            return;
+        } else {
+            if(user.password != request.body.password) {
+                send_response(response, 'Password is incorrect.', 0);
+                return;
+            } else {
+                user.remove();
+                send_response(response, 'User deleted.', 1);
+                return;
+            }
+        }
+    });
+
+});
+
+
+app.post('/db/restaurant/add_to_list', function(request, response) {
+    // Create a restaurant and add to user list.
+
+    if (!check_session_email(request, response)) {
+        return;
+    }
+
+    var email = request.body.email;
+
+
+    User.find({email: email}).exec(function(err, user) {
+        if (user.length == 0) {
+            send_response(response, 'Cannot find this user in database.', 0);
+            return;
+        } else {
+            my_user = user[0];
+            // TODO: Check request body data
+            var yelp_id = request.body.yelp_id;
+            var name = request.body.name;
+            var url = request.body.url;
+            var rating = request.body.rating;
+            var rating_img_url = request.body.rating_img_url;
+            var categories = request.body.categories.slice();
+            var address = request.body.address;
+
+            Restaurant.find({yelp_id: yelp_id}).exec(function(err, restaurant) {
+                if (err) {
+                    console.log("Error in finding restaurant.");
+                } else {
+                    if (restaurant.length != 0) {
+                        // Found existing restaurant.
+                        // Check if this restaurt is already added.
+                        if (my_user.restaurants.indexOf(restaurant[0]._id) == -1) {
+                            // Just add to user list.
+                            my_user.restaurants.push(restaurant[0]);
+                            my_user.save(function(err) {
+                                if (err) {
+                                    send_response(response, 'Error occurred when saving user!', 0);
+                                    return;
+                                } else {
+                                    send_response(response, name + ' is added!', 1);
+                                    return;
+                                }
+                            });
+                        } else {
+                            // The restaurant is already in user list.
+                            send_response(response, 'This restaurant is already in your bucket list!', 0);
+                            return;
+                        }
+                    } else {
+                        for (var i = 0; i < categories.length; ++i) {
+                            categories[i] = categories[i].trim();
+                        }
+
+                        // Not found in database, create a new restaurant.
+                        var new_restaurant = new Restaurant({
+                            yelp_id: yelp_id,
+                            name: name,
+                            categories: categories,
+                            address: address,
+                            rating_img_url: rating_img_url,
+                            rating: rating
+                        });
+
+                        new_restaurant.save(function(err) {
+                            if (err) {
+                                send_response(response, 'Error occurred when creating new restaurant!', 0);
+                                return;
+                            } else {
+                                // Restaurant saved. Link to user.
+                                my_user.restaurants.push(new_restaurant);
+                                my_user.save(function(err) {
+                                    if (err) {
+                                        send_response(response, 'Error occurred when saving user!', 0);
+                                        return;
+                                    } else {
+                                        send_response(response, name + ' is added!', 1);
+                                        return;
+                                    }
+                                });
+                            }
+                        })
+                    }
+                }
+            });
+        }
+    });
+});
+
+
+
+app.post('/db/restaurant/remove_from_user_list', function(request, response) {
+    if (!check_session_email(request, response)) {
+        return;
+    }
+
+    var email = request.body.email;
+
+    User.findOne({email: email}).exec(function(err, user) {
+        if (!user) {
+            send_response(response, 'Cannot find this user in database.', 0);
+            return;
+        } else {
+            my_user = user;
+            // TODO: Check request body data
+            var yelp_id = request.body.yelp_id;
+
+            Restaurant.findOne({ yelp_id: yelp_id }).remove( function(msg) {
+                // Not sure if there is any msg being passed back from remove. Blindly send success?
+                send_response(response, 'Removed!', 1);
+            });
+
+        }
+    });
+});
+
+app.get('/db/restaurant/get', function(request, response) {
 
 });
 
@@ -183,6 +526,7 @@ app.get('/api/yelp', function(request, response) {
         items = [];
         for (var i = 0, len = data.businesses.length; i < len; ++i) {
             var temp = {};
+            temp.yelp_id = data.businesses[i].id;
             temp.rating = data.businesses[i].rating;
             temp.name = data.businesses[i].name;
             temp.categories = [];
@@ -239,7 +583,36 @@ app.get('/api/geocode', function(request, response) {
     http.request(options, callback).end();
 });
 
+//------------------------------------
+//          HELPER FUNCTIONS
+//------------------------------------
 
+var send_response = function(response, message, status) {
+    var send_status = '';
+    if (status == 1) {
+        send_status = 'success';
+    } else if (status == 0) {
+        send_status = 'error';
+    }
+
+    response.send({
+        message: message,
+        status: send_status
+    });
+}
+
+var check_session_email = function(request, response) {
+    if (!request.body.email) {
+        send_response(response, 'Please login first!', 0);
+        return false;
+    }
+
+    if (!request.session.email || request.session.email != request.body.email) {
+        send_response(response, 'Wrong credential! Please login again!', 0);
+        return false;
+    }
+    return true;
+}
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

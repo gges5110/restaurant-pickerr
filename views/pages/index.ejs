@@ -9,17 +9,22 @@
         <div class="container">
         <% include ../partials/nav.ejs %>
 
-            <div class="jumbotron" style="margin-top: 15%;">
-                <div class="container">
-                    <h1>Weclome to Restaurant Pickerr!</h1>
-                    <div class="col-md-12">
-                        <p>
-                            This website will help you pick a restaurant! <br/>
-                            Go to Yelp Demo page and search for some restaurants!
-                        </p>
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-12">
+                <div class="jumbotron">
+                    <div class="container">
+                        <h1>Weclome to Restaurant Pickerr!</h1>
+                        <div class="col-md-12">
+                            <p>
+                                This website will help you pick a restaurant! <br/>
+                                Go to Search Yelp page and search for some restaurants! <br/>
+                                You can save the search results to your bucketlist (login required).
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
         </div>
             <script type="text/javascript">
@@ -29,6 +34,6 @@
                     $('#nav_li_home').addClass('active');
                 });
             </script>
-            <% include ../partials/footer.ejs %>
+            <!-- <% include ../partials/footer.ejs %> -->
     </body>
 </html>
