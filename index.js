@@ -130,6 +130,13 @@ app.get('/bucketlist', function(request, response) {
     User.findOne({email: email}).populate('restaurants').exec(function(err, user) {
         if (err) {
             console.log('err');
+        } else if(!user) {
+            response.render('pages/bucketlist', {
+                login: login,
+                email: email,
+                name: name
+            });
+            return;
         } else {
             console.log("user res len = " + user.restaurants.length);
             for (var i = 0; i < user.restaurants.length; ++i) {
