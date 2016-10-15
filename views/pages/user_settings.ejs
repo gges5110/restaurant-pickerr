@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <% include ../partials/header.ejs %>
+      <script type="text/javascript" src="/js/user_settings.js"></script>
+    </head>
+
+    <body>
+
+        <div class="container">
+        <% include ../partials/nav.ejs %>
+
+            <div class="row">
+                <div class="col-md-6 offset-md-3 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">User Settings</h4>
+                        </div>
+
+                        <div class="card-block">
+
+                            <div class="col-md-12">
+                                <!-- <p class="card-title">This page shows the nearby restaurants from Yelp!</p> -->
+
+                                <form class="form-control" action="javascript:void(0);">
+                                    <div class="form-group">
+                                        <label for="update_email_input" class="control-label">Email</label>
+                                        <input type="email" id="update_email_input" name="update_email_input" value="<%= email %>" class="form-control" disabled></input>
+                                        <small id="email_help" class="form-text text-muted">You are not able to change your email once you have signed up.</small>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="update_name_input" class="control-label">Name</label>
+                                        <input type="text" id="update_name_input" name="update_name_input" value="<%= name %>" class="form-control"></input>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="update_password_input" class="control-label">Password</label>
+                                        <input type="password" id="update_password_input" name="update_password_input" value="" class="form-control"></input>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="update_password_confirm_input" class="control-label">Confirm Password</label>
+                                        <input type="password" id="update_password_confirm_input" name="update_password_confirm_input" value="" class="form-control"></input>
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-success" id="update_account_btn">Update</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 offset-md-3 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Delete Account</h4>
+                        </div>
+
+                        <div class="card-block">
+
+                            <div class="col-md-12">
+                                <!-- <p class="card-title">This page shows the nearby restaurants from Yelp!</p> -->
+
+                                <form class="form-control" action="javascript:void(0);">
+                                    <div class="form-group">
+                                        <label for="delete_password_confirm_input" class="control-label">Confirm Password</label>
+                                        <input type="password" id="delete_password_confirm_input" name="delete_password_confirm_input" value="" class="form-control"></input>
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-danger" id="delete_account_btn">Delete Account</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- container -->
+    </body>
+</html>
