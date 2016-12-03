@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    $(".nav li").removeClass("active");//this will remove the active class from
-                           //previously active menu item
+    $(".nav li").removeClass("active");//this will remove the active class from previously active menu item
     $('#nav_li_yelp').addClass('active');
 });
 
@@ -21,15 +20,28 @@ var geocode_callback = (function() {
            if (!data.results[0] || data.status === "ZERO_RESULTS") {
                toastr.warning("No zipcode results found!")
            } else {
-               $.each(data.results[0].address_components, function(key, val) {
-                   if (val.types.indexOf("postal_code") != -1) {
-                       zipcode = val.long_name;
-                       found = true;
-                   } else if (val.types.indexOf("locality") != -1) {
-                       user_city = val.long_name;
-                   }
-               });
-               //    toastr.success('zipcode = ' + zipcode);
+               var i = 0;
+               while (!found && i < data.results.length) {
+                   console.log('in loop');
+                   $.each(data.results[0].address_components, function(key, val) {
+                       if (val.types.indexOf("postal_code") != -1) {
+                           zipcode = val.long_name;
+                           found = true;
+                       } else if (val.types.indexOf("locality") != -1) {
+                           user_city = val.long_name;
+                       }
+                   });
+                   ++i;
+               }
+
+               if (found) {
+                   toastr.success('zipcode = ' + zipcode);
+                   toastr.success('city = ' + user_city);
+               } else {
+                   toastr.warning('No postal code found.');
+               }
+
+               console.log(data.results[0].address_components);
                yelp_query();
            }
          }
@@ -84,7 +96,13 @@ var yelp_query = (function() {
                  }
                  items.push( "</td>");
                  items.push( "<td><a id='result_address_" + i + "' href='https://www.google.com/maps?q=" + encodeURIComponent(data.results[i].address) + "' target='_blank'>" + data.results[i].address +"</a></td>");
-                 items.push( "<td><form action='javascript:void(0);'><button type='submit' tabindex='" + i + "' class='btn btn-primary result_add_submit'>Add</button><form></td>")
+                 if (!data.results[i].in_list) {
+                     items.push( "<td><form action='javascript:void(0);'><button type='submit' tabindex='" + i + "' class='btn btn-primary result_add_submit'>Add</button><form></td>")
+                 } else {
+                     items.push( "<td><form action='javascript:void(0);'><button type='submit' tabindex='" + i + "' class='btn btn-warning result_add_submit'>Add</button><form></td>")
+                 }
+
+
                  items.push( "</tr>");
              }
 
@@ -155,8 +173,9 @@ $(document).on('click', '#find_btn', function(event) {
                     lng = position.coords.longitude;
                     // toastr.success('Your latitude is ' + lat + ', ' + ' longitude is ' + lng);
 
+                    yelp_query();
                     // Get zipcode.
-                    geocode_callback();
+                    // geocode_callback();
 
                 });
             }

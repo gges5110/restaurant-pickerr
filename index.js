@@ -225,6 +225,8 @@ app.post('/db/user/create', function(request, response) {
                         message: err.errmsg
                     });
                 } else {
+                    request.session.email = email;
+                    request.session.name = name;
                     response.send({
                         message:'success'
                     });
@@ -239,7 +241,7 @@ app.post('/db/user/login', function(request, response) {
     var email = request.body.email;
     var password = request.body.password;
 
-    // get the user starlord55
+    // get the user
     User.find({ email: email }, function(err, user) {
       if (user.length == 0) {
           console.log("user.length: " + user.length);
@@ -341,7 +343,6 @@ app.post('/db/user/delete', function(request, response) {
 
 app.post('/db/restaurant/add_to_list', function(request, response) {
     // Create a restaurant and add to user list.
-
     if (!check_session_email(request, response)) {
         return;
     }
@@ -511,7 +512,7 @@ app.get('/api/yelp', function(request, response) {
         console.log("New term: " + term);
     }
 
-    var limit = 5;
+    var limit = 20;
     // console.log("request.query.limit = " + request.query.limit);
     if (request.query.limit) {
         limit = request.query.limit;
@@ -519,8 +520,8 @@ app.get('/api/yelp', function(request, response) {
 
     yelp.search(
         {   term: term,
-            location: location,
-            cll: latlng,
+            // location: location,
+            ll: latlng,
             limit: limit,
             sort: sort_mode
     })
@@ -529,31 +530,97 @@ app.get('/api/yelp', function(request, response) {
 
         var myObject = {};
         myObject.total = data.total;
-
         items = [];
-        for (var i = 0, len = data.businesses.length; i < len; ++i) {
-            var temp = {};
-            temp.yelp_id = data.businesses[i].id;
-            temp.rating = data.businesses[i].rating;
-            temp.name = data.businesses[i].name;
-            temp.categories = [];
-            for (var j = 0, len_cat = data.businesses[i].categories.length; j < len_cat; ++j) {
-                temp.categories.push(data.businesses[i].categories[j][0]);
-            }
-            temp.address = "";
-            for (var j = 0; j < data.businesses[i].location.display_address.length; ++j) {
-                temp.address += data.businesses[i].location.display_address[j] + " ";
+
+        if (request.session.email) {
+            console.log('request.session.email = ' + request.session.email);
+
+            // The user has logged in, check if there's any restaurant that's in the list
+            var restaurants = [];
+
+            User.findOne({email: request.session.email}).populate('restaurants').exec(function(err, user) {
+                console.log("searching ");
+                if (err) {
+                    console.log('err');
+                } else if(user) {
+                    console.log("user.restaurants.length = " + user.restaurants.length);
+                    for (var i = 0; i < user.restaurants.length; ++i) {
+                        restaurants.push(user.restaurants[i]);
+                    }
+
+                    console.log("restaurants length = " + restaurants.length);
+
+                    for (var i = 0, len = data.businesses.length; i < len; ++i) {
+                        var temp = {};
+                        temp.yelp_id = data.businesses[i].id;
+                        console.log("temp.yelp_id == " + temp.yelp_id);
+
+                        temp.in_list = false;
+                        for (var j = 0; j < restaurants.length; ++j) {
+                            // console.log("obj.yelp_id == " + restaurants[j].yelp_id);
+                            if (temp.yelp_id === restaurants[j].yelp_id) {
+                                temp.in_list = true;
+                                break;
+                            }
+                        }
+
+                        console.log("in list? " + temp.in_list);
+
+                        temp.rating = data.businesses[i].rating;
+                        temp.name = data.businesses[i].name;
+                        temp.categories = [];
+                        for (var j = 0, len_cat = data.businesses[i].categories.length; j < len_cat; ++j) {
+                            temp.categories.push(data.businesses[i].categories[j][0]);
+                        }
+                        temp.address = "";
+                        for (var j = 0; j < data.businesses[i].location.display_address.length; ++j) {
+                            temp.address += data.businesses[i].location.display_address[j] + " ";
+                        }
+
+                        temp.rating_img_url = data.businesses[i].rating_img_url;
+                        temp.url = data.businesses[i].url;
+
+                        items.push(temp);
+                    }
+
+                    myObject.results = items;
+
+                    // console.log(data);
+                    response.send(myObject);
+                }
+            });
+
+        } else {
+            console.log('not request.body.email');
+            for (var i = 0, len = data.businesses.length; i < len; ++i) {
+                var temp = {};
+                temp.yelp_id = data.businesses[i].id;
+                temp.rating = data.businesses[i].rating;
+                temp.name = data.businesses[i].name;
+                temp.categories = [];
+                for (var j = 0, len_cat = data.businesses[i].categories.length; j < len_cat; ++j) {
+                    temp.categories.push(data.businesses[i].categories[j][0]);
+                }
+                temp.address = "";
+                for (var j = 0; j < data.businesses[i].location.display_address.length; ++j) {
+                    temp.address += data.businesses[i].location.display_address[j] + " ";
+                }
+
+                temp.rating_img_url = data.businesses[i].rating_img_url;
+                temp.url = data.businesses[i].url;
+
+                items.push(temp);
             }
 
-            temp.rating_img_url = data.businesses[i].rating_img_url;
-            temp.url = data.businesses[i].url;
+            myObject.results = items;
 
-            items.push(temp);
+            // console.log(data);
+            response.send(myObject);
         }
-        myObject.results = items;
 
-        // console.log(data);
-        response.send(myObject);
+
+
+
     })
     .catch(function (err) {
         console.error(err);

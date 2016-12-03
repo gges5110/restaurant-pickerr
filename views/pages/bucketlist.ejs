@@ -10,12 +10,13 @@
             <% include ../partials/nav.ejs %>
 
             <div class="row">
-                <div class="col-md-6 offset-md-3 col-sm-12">
+                <div class="col-md-12">
                     <div class="jumbotron" style="margin-top: 0%;">
                         <div class="container">
                             <h1>Weclome to Bucketlist!</h1>
                             <div class="col-md-12">
                                 <p>Here is the list of restaurants you saved! </p>
+                                <button type="submit" class="btn btn-outline-primary" id="pick_btn">Pick for me!</button>
                             </div>
                         </div>
                     </div>
@@ -49,7 +50,7 @@
                                     <% for(var i = 0; i < restaurants.length; ++i) { %>
                                     <tr tabindex="<%= i %>" class="list_table_row">
                                         <td hidden id="list_yelp_id_<%= i%>"><%= restaurants[i].yelp_id %></td>
-                                        <td><a href="<%= restaurants[i].url %>"><%= restaurants[i].name %></a></td>
+                                        <td><a href="<%= restaurants[i].url %>" id="list_yelp_name_<%= i%>"><%= restaurants[i].name %></a></td>
                                         <td><img src="<%= restaurants[i].rating_img_url %>"></td>
                                         <td>
                                         <% for(var j = 0; j < restaurants[i].categories.length; ++j) { %>

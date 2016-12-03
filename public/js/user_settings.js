@@ -65,6 +65,7 @@ $(document).on('click', '#delete_account_btn', function(event) {
                 toastr.warning(data.message);
             } else {
                 toastr.success(data.message);
+                // Might want to wait for a second here.
                 window.location.href = "/login";
             }
             NProgress.done(true);

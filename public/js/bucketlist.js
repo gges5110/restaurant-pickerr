@@ -3,7 +3,6 @@ $(document).ready(function () {
     $('#nav_li_bucketlist').addClass('active');
 });
 
-
 $(document).on('click', '#remove_from_list_btn', function(event) {
     NProgress.start();
 
@@ -29,6 +28,11 @@ $(document).on('click', '#remove_from_list_btn', function(event) {
         }
     })
 
-
     NProgress.done(true);
+});
+
+$(document).on('click', '#pick_btn', function(event) {
+    var rowCount = $('#yelp_table tbody tr').length;
+    var randomnumber = Math.floor(Math.random() * rowCount);
+    toastr.success("The restaurant is: " + $('#list_yelp_name_' + randomnumber).text());
 });
