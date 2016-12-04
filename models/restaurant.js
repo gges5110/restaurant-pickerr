@@ -7,6 +7,7 @@ var restaurantSchema = Schema({
     name: { type: String, required: true },
     categories: [{type: String}],
     address: {type: String, required: true},
+    url: {type: String, required: true},
     rating_img_url: {type: String, required: true},
     rating: {type: String, required: true},
     user: {type: Schema.Types.ObjectId, ref: 'User'}

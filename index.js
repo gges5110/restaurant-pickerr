@@ -400,6 +400,7 @@ app.post('/db/restaurant/add_to_list', function(request, response) {
                             name: name,
                             categories: categories,
                             address: address,
+                            url: url,
                             rating_img_url: rating_img_url,
                             rating: rating
                         });
