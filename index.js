@@ -35,6 +35,7 @@ mongoose.connect('mongodb://gges5110:gges5110@ds031975.mlab.com:31975/heroku_dm7
 
 var User = require('./models/user.js');
 var Restaurant = require('./models/restaurant.js');
+var SharedList = require('./models/sharedList.js');
 
 var Yelp = require('yelp');
 
@@ -152,6 +153,22 @@ app.get('/bucketlist', function(request, response) {
         }
     });
 
+});
+
+app.get('/manage_shared_list', function(request, response) {
+    var login = false;
+    var email, name;
+    if (request.session && request.session.email) {
+        login = true;
+        email = request.session.email;
+        name = request.session.name;
+    }
+
+    response.render('pages/manage_shared_list', {
+        login: login,
+        email: email,
+        name: name
+    });
 });
 
 app.get('/login', function(request, response) {
@@ -338,6 +355,43 @@ app.post('/db/user/delete', function(request, response) {
         }
     });
 
+});
+
+app.post('db/shared_list/new_list', function(request, response) {
+    // Create a restaurant and add to user list.
+    if (!check_session_email(request, response)) {
+        return;
+    }
+
+    var email = request.body.email;
+
+    User.find({email: email}).exec(function(err, user) {
+        if (user.length == 0) {
+            send_response(response, 'Cannot find this user in database.', 0);
+            return;
+        } else {
+            my_user = user[0];
+            // TODO: Check request body data
+            var name = request.body.name;
+
+            var newUsers = [];
+            newUsers.push(my_user);
+            var newSharedList = new Restaurant({
+                name: name,
+                restaurants: [],
+                users: newUsers
+            });
+
+            newSharedList.save(function(err) {
+                if (err) {
+                    send_response(response, 'Error occurred when creating new restaurant!', 0);
+                    return;
+                } else {
+                    send_response(response, name + ' is added!', 1);                    
+                }
+            })
+        }
+    });
 });
 
 
