@@ -7,6 +7,7 @@ var lat, lng;
 var zipcode = "";
 var user_city = "";
 
+// Yelp can take lat lng right away, no need to query Google for the exact address.
 var geocode_callback = (function() {
     $.ajax({
         url: "/api/geocode",
@@ -66,7 +67,7 @@ var yelp_query = (function() {
              if ($('#limit_input').val() != "") {
                  $('#number_of_results').text($('#limit_input').val());
              } else {
-                 $('#number_of_results').text(5);
+                 $('#number_of_results').text(20);
              }
 
              if (!$('#term_input').val()) {
@@ -96,12 +97,13 @@ var yelp_query = (function() {
                  }
                  items.push( "</td>");
                  items.push( "<td><a id='result_address_" + i + "' href='https://www.google.com/maps?q=" + encodeURIComponent(data.results[i].address) + "' target='_blank'>" + data.results[i].address +"</a></td>");
-                 if (!data.results[i].in_list) {
-                     items.push( "<td><form action='javascript:void(0);'><button type='submit' tabindex='" + i + "' class='btn btn-primary result_add_submit'>Add</button><form></td>")
-                 } else {
-                     items.push( "<td><form action='javascript:void(0);'><button type='submit' tabindex='" + i + "' class='btn btn-warning result_add_submit'>Add</button><form></td>")
-                 }
 
+                 items.push( "<td>");
+                 if (!data.results[i].in_list) {
+                     items.push( "<form action='javascript:void(0);'><button id='add_to_list_btn_" + i + "' type='submit' tabindex='" + i + "' class='btn btn-primary result_add_submit'>Add</button><form>")
+                 } else {
+                     items.push( "<form action='javascript:void(0);'><button id='add_to_list_btn_" + i + "' type='submit' tabindex='" + i + "' class='btn btn-warning result_add_submit'>Add</button><form>")
+                 }
 
                  items.push( "</tr>");
              }
@@ -111,6 +113,11 @@ var yelp_query = (function() {
              NProgress.done(true);
          }
     });
+});
+
+$(document).on('click', '.dropdown-item', function(event) {
+    $('#select_list_btn').text($(this).text());
+    $('#selected_list_id').text($(this).attr('id'));
 });
 
 $(document).on('click', '.result_add_submit', function(event) {
@@ -124,6 +131,7 @@ $(document).on('click', '.result_add_submit', function(event) {
     var rating_img_url = $('#result_rating_img_url_' + index).attr('src');
     var categories_text = $('#result_categories_' + index).text();
     var address = $('#result_address_' + index).text();
+    var list_id = $('#selected_list_id').text();
 
     var categories = categories_text.split(',');
     // Process categories_text.
@@ -142,13 +150,16 @@ $(document).on('click', '.result_add_submit', function(event) {
             rating: rating,
             rating_img_url: rating_img_url,
             categories: categories,
-            address: address
+            address: address,
+            list_id: list_id
         }),
         contentType: 'application/json',
         success: function(data) {
             if (data.status === 'error') {
                 toastr.warning(data.message);
             } else {
+                $('#add_to_list_btn_' + index).removeClass("btn-primary");
+                $('#add_to_list_btn_' + index).addClass("btn-warning");
                 toastr.success(data.message);
             }
         }

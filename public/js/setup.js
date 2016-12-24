@@ -1,5 +1,7 @@
 $(function() {
     toastr.options = {
+        "closeButton": true,
+        "progressBar": false,
         "positionClass": "toast-top-right"
     }
     NProgress.start();

@@ -34,5 +34,9 @@ $(document).on('click', '#remove_from_list_btn', function(event) {
 $(document).on('click', '#pick_btn', function(event) {
     var rowCount = $('#yelp_table tbody tr').length;
     var randomnumber = Math.floor(Math.random() * rowCount);
-    toastr.success("The restaurant is: " + $('#list_yelp_name_' + randomnumber).text());
+    toastr.success($('#list_yelp_name_' + randomnumber).text(), "The restaurant is: ", {
+        onclick: function() {
+            window.open($('#list_yelp_name_' + randomnumber).attr('href'));
+        }
+    });
 });

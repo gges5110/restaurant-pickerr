@@ -7,7 +7,8 @@ var userSchema = Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     admin: Boolean,
-    restaurants: [{type: Schema.Types.ObjectId, ref: 'Restaurant'}]
+    restaurants: [{type: Schema.Types.ObjectId, ref: 'Restaurant'}],
+    sharedLists: [{type: Schema.Types.ObjectId, ref: 'SharedList'}]
 });
 
 // var restaurantSchema = Schema({
