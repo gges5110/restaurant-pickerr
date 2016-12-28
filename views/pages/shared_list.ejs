@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
       <% include ../partials/header.ejs %>
+      <script type="text/javascript" src="/js/shared_list.js"></script>
     </head>
 
     <body>
@@ -15,6 +16,7 @@
                     <div class="container">
                         <% if (login) { %>
                             <h1>Weclome to <%= sharedList.name %>!</h1>
+                            <a hidden id="list_id"><%= sharedList.id %></a>
                         <% } else { %>
                             <h1>Weclome to Restaurant Pickerr!</h1>
                         <% } %>
@@ -32,7 +34,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-block">
-                        <h4 class="card-title">Your Bucket List</h4>
+                        <h4 class="card-title">Your Shared List</h4>
                         <% if (login) { %>
                         <h6 class="card-subtitle text-muted">
                             <span class="tag tag-default tag-pill" id="number_of_results"><%= restaurants.length %></span>

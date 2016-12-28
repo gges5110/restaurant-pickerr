@@ -15,7 +15,7 @@ router.get('/shared_list', function(request, response) {
     }
     var list_id = request.query.list_id;
 
-    SharedList.findOne({_id: list_id}).populate('restaurants').exec(function(err, sharedList) {
+    SharedList.findOne({_id: list_id}).populate('restaurants').populate('users').exec(function(err, sharedList) {
         if (err) {
             console.log('error');
         } else if (!sharedList) {

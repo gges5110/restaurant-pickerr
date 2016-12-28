@@ -27,10 +27,12 @@ var router_db_user_delete = require('./routes/db/user/delete.js');
 
 var router_db_restaurant_add_to_list = require('./routes/db/restaurant/add_to_list.js');
 var router_db_restaurant_remove_from_user_list = require('./routes/db/restaurant/remove_from_user_list.js');
+var router_db_restaurant_remove_from_shared_list = require('./routes/db/restaurant/remove_from_shared_list.js');
 
 var router_api_yelp = require('./routes/api/yelp.js');
 
-var router_db_shared_list_new_list = require('./routes/db/shared_list/new_list.js');
+var router_db_shared_list_create = require('./routes/db/shared_list/create.js');
+var router_db_shared_list_delete = require('./routes/db/shared_list/delete.js');
 
 var app = express();
 
@@ -72,11 +74,13 @@ app.use(router_db_user_delete);
 //------------------------------------
 app.use(router_db_restaurant_add_to_list);
 app.use(router_db_restaurant_remove_from_user_list);
+app.use(router_db_restaurant_remove_from_shared_list);
 
 //------------------------------------
 //       DATABASE OPERATIONS: Shared Lists
 //------------------------------------
-app.use(router_db_shared_list_new_list);
+app.use(router_db_shared_list_create);
+app.use(router_db_shared_list_delete);
 
 //------------------------------------
 //              API ENDPOINT

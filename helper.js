@@ -19,12 +19,12 @@ exports.send_response = function(response, message, status) {
 
 exports.check_session_email = function(request, response) {
     if (!request.body.email) {
-        send_response(response, 'Please login first!', 0);
+        exports.send_response(response, 'Please login first!', 0);
         return false;
     }
 
     if (!request.session.email || request.session.email != request.body.email) {
-        send_response(response, 'Wrong credential! Please login again!', 0);
+        exports.send_response(response, 'Wrong credential! Please login again!', 0);
         return false;
     }
     return true;

@@ -6,7 +6,7 @@ var Restaurant = require('../../../models/restaurant.js');
 var SharedList = require('../../../models/sharedList.js');
 var helper = require('../../../helper.js');
 
-router.post('/db/shared_list/new_list', function(request, response) {
+router.post('/db/shared_list/create', function(request, response) {
     // Create a restaurant and add to user list.
     if (!helper.check_session_email(request, response)) {
         return;
@@ -43,7 +43,11 @@ router.post('/db/shared_list/new_list', function(request, response) {
                             helper.send_response(response, 'Error occurred when saving user!', 0);
                             return;
                         } else {
-                            helper.send_response(response, name + ' is added!', 1);
+                            response.send({
+                                message: name + ' is added!',
+                                status: 'success',
+                                list_id: newSharedList.id
+                            });
                             return;
                         }
                     })

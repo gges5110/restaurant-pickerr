@@ -1,19 +1,15 @@
-$(document).ready(function () {
-    $(".nav li").removeClass("active");
-    $('#nav_li_bucketlist').addClass('active');
-});
-
 $(document).on('click', '#remove_from_list_btn', function(event) {
     NProgress.start();
 
     var index = $(this).attr('tabindex');
-
+    toastr.info($('#list_id').text());
     $.ajax({
-        url: '/db/restaurant/remove_from_user_list',
+        url: '/db/restaurant/remove_from_shared_list',
         method: 'POST',
         data: JSON.stringify({
             email: $('#nav_email').attr('title'),
-            yelp_id: $('#list_yelp_id_' + index).text()
+            yelp_id: $('#list_yelp_id_' + index).text(),
+            list_id: $('#list_id').text()
         }),
         contentType: 'application/json',
         success: function(data) {
@@ -28,14 +24,4 @@ $(document).on('click', '#remove_from_list_btn', function(event) {
     })
 
     NProgress.done(true);
-});
-
-$(document).on('click', '#pick_btn', function(event) {
-    var rowCount = $('#yelp_table tbody tr').length;
-    var randomnumber = Math.floor(Math.random() * rowCount);
-    toastr.success($('#list_yelp_name_' + randomnumber).text(), "The restaurant is: ", {
-        onclick: function() {
-            window.open($('#list_yelp_name_' + randomnumber).attr('href'));
-        }
-    });
 });
