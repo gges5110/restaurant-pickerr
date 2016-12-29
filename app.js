@@ -34,7 +34,23 @@ var router_api_yelp = require('./routes/api/yelp.js');
 var router_db_shared_list_create = require('./routes/db/shared_list/create.js');
 var router_db_shared_list_delete = require('./routes/db/shared_list/delete.js');
 
+var env = process.env.NODE_ENV || 'development';
+
+var forceSsl = function (req, res, next) {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    return next();
+ };
+
+
+
 var app = express();
+
+
+if (env === 'production') {
+    app.use(forceSsl);
+}
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
