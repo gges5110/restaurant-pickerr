@@ -23,7 +23,25 @@ router.post('/db/user/login', function(request, response) {
               request.session.email = user[0].email;
               request.session.name = user[0].name;
 
-              response.redirect('/yelp');
+              if (!request.session.invite) {
+                  response.send({
+                      message: "Logged in! Redirect to Yelp search...",
+                      status: 'success',
+                      redirect: '/yelp'
+                  });
+                  return;
+              } else {
+                  request.session.invite = false;
+                  var list_id = request.session.invite_list_id;
+                  var redirectURL = '/invite?list_id=' + list_id;
+                  request.session.invite_list_id = null;
+                  response.send({
+                      message: "Logged in! Redirect to " + redirectURL,
+                      status: 'success',
+                      redirect: redirectURL
+                  });
+              }
+
           } else {
               // Wrong password.
               console.log(user[0].password);

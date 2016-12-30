@@ -33,7 +33,7 @@ $(document).on('click', '#add_shared_list_btn', function(event) {
                 items.push("</td>");
                 items.push( "</tr> ");
 
-                $('#shared_list_table > tbody:last-child').append(items.join('\n'));
+                $('#shared_list_table_own > tbody:last-child').append(items.join('\n'));
             }
         }
     });
@@ -41,6 +41,7 @@ $(document).on('click', '#add_shared_list_btn', function(event) {
 
 $(document).on('click', '#remove_list_btn', function(event) {
     NProgress.start();
+    var table_id = $(this).closest('table').attr('id');
     var index = $(this).attr('tabindex');
 
     $.ajax({
@@ -48,7 +49,7 @@ $(document).on('click', '#remove_list_btn', function(event) {
         method: 'POST',
         data: JSON.stringify({
             email: $('#nav_email').attr('title'),
-            list_id: $('#list_id_' + index).text()
+            list_id: $('#' + table_id + '_id_' + index).text()
         }),
         contentType: 'application/json',
         success: function(data) {
@@ -56,7 +57,7 @@ $(document).on('click', '#remove_list_btn', function(event) {
                 toastr.warning(data.message);
             } else {
                 toastr.success(data.message);
-                $('.list_table_row[tabindex=' + index + ']').remove();
+                $('#' + table_id + ' > tbody > tr[tabindex=' + index + ']').remove();
             }
             NProgress.done(true);
         }

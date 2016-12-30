@@ -23,11 +23,9 @@ router.post('/db/shared_list/create', function(request, response) {
             // TODO: Check request body data
             var name = request.body.name;
 
-            var newUsers = [];
-            newUsers.push(my_user);
             var newSharedList = new SharedList({
                 name: name,
-                users: newUsers
+                owner: my_user
             });
 
             newSharedList.save(function(err) {
@@ -37,7 +35,7 @@ router.post('/db/shared_list/create', function(request, response) {
                     return;
                 } else {
                     // Update the user as well.
-                    my_user.sharedLists.push(newSharedList);
+                    my_user.sharedLists_own.push(newSharedList);
                     my_user.save(function(err) {
                         if (err) {
                             helper.send_response(response, 'Error occurred when saving user!', 0);

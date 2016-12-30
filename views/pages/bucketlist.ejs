@@ -54,7 +54,11 @@
                                         <td><img src="<%= restaurants[i].rating_img_url %>"></td>
                                         <td>
                                         <% for(var j = 0; j < restaurants[i].categories.length; ++j) { %>
-                                        <%= restaurants[i].categories[j] %>,
+                                            <% if (j != restaurants[i].categories.length - 1) {%>
+                                                <%= restaurants[i].categories[j] %>,
+                                            <% } else {%>
+                                                <%= restaurants[i].categories[j] %>
+                                            <% } %>
                                         <% } %>
                                         </td>
                                         <td><a href="https://www.google.com/maps?q=<%= encodeURIComponent(restaurants[i].address) %>" target="_blank"><%= restaurants[i].address %></a></td>

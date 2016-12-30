@@ -12,7 +12,7 @@ router.get('/yelp', function(request, response) {
         name = request.session.name;
     }
 
-    User.findOne({email: email}).populate('sharedLists').exec(function(err, user) {
+    User.findOne({email: email}).populate('sharedLists_own').populate('sharedLists_edit').exec(function(err, user) {
         if (err) {
             console.log('err');
         } else if(!user) {

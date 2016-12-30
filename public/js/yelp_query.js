@@ -7,48 +7,6 @@ var lat, lng;
 var zipcode = "";
 var user_city = "";
 
-// Yelp can take lat lng right away, no need to query Google for the exact address.
-var geocode_callback = (function() {
-    $.ajax({
-        url: "/api/geocode",
-        data: {
-            lat: lat,
-            long: lng
-        },
-        success: function(data) {
-           var found = false;
-        //    console.log(data);
-           if (!data.results[0] || data.status === "ZERO_RESULTS") {
-               toastr.warning("No zipcode results found!")
-           } else {
-               var i = 0;
-               while (!found && i < data.results.length) {
-                   console.log('in loop');
-                   $.each(data.results[0].address_components, function(key, val) {
-                       if (val.types.indexOf("postal_code") != -1) {
-                           zipcode = val.long_name;
-                           found = true;
-                       } else if (val.types.indexOf("locality") != -1) {
-                           user_city = val.long_name;
-                       }
-                   });
-                   ++i;
-               }
-
-               if (found) {
-                   toastr.success('zipcode = ' + zipcode);
-                   toastr.success('city = ' + user_city);
-               } else {
-                   toastr.warning('No postal code found.');
-               }
-
-               console.log(data.results[0].address_components);
-               yelp_query();
-           }
-         }
-     });
-});
-
 var yelp_query = (function() {
     $.ajax({
         url: "/api/yelp",
@@ -182,12 +140,8 @@ $(document).on('click', '#find_btn', function(event) {
                     // Get the coordinates of the current possition.
                     lat = position.coords.latitude;
                     lng = position.coords.longitude;
-                    // toastr.success('Your latitude is ' + lat + ', ' + ' longitude is ' + lng);
 
                     yelp_query();
-                    // Get zipcode.
-                    // geocode_callback();
-
                 });
             }
         } else {
@@ -195,6 +149,5 @@ $(document).on('click', '#find_btn', function(event) {
             // Location is already specified by the user, use it.
             yelp_query();
         }
-
     }
 });

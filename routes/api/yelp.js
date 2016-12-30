@@ -71,17 +71,13 @@ router.get('/api/yelp', function(request, response) {
                 if (err) {
                     console.log('err');
                 } else if(user) {
-                    console.log("user.restaurants.length = " + user.restaurants.length);
                     for (var i = 0; i < user.restaurants.length; ++i) {
                         restaurants.push(user.restaurants[i]);
                     }
 
-                    console.log("restaurants length = " + restaurants.length);
-
                     for (var i = 0, len = data.businesses.length; i < len; ++i) {
                         var temp = {};
                         temp.yelp_id = data.businesses[i].id;
-                        console.log("temp.yelp_id == " + temp.yelp_id);
 
                         temp.in_list = false;
                         for (var j = 0; j < restaurants.length; ++j) {
@@ -91,8 +87,6 @@ router.get('/api/yelp', function(request, response) {
                                 break;
                             }
                         }
-
-                        console.log("in list? " + temp.in_list);
 
                         temp.rating = data.businesses[i].rating;
                         temp.name = data.businesses[i].name;

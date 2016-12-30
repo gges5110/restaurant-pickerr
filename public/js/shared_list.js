@@ -2,7 +2,6 @@ $(document).on('click', '#remove_from_list_btn', function(event) {
     NProgress.start();
 
     var index = $(this).attr('tabindex');
-    toastr.info($('#list_id').text());
     $.ajax({
         url: '/db/restaurant/remove_from_shared_list',
         method: 'POST',
@@ -24,4 +23,19 @@ $(document).on('click', '#remove_from_list_btn', function(event) {
     })
 
     NProgress.done(true);
+});
+
+
+$(document).on('click', '#pick_btn', function(event) {
+    var rowCount = $('#yelp_table tbody tr').length;
+    if (rowCount == 0) {
+        toastr.warning('Your list is empty, please add some items.');
+    } else {
+        var randomnumber = Math.floor(Math.random() * rowCount);
+        toastr.success($('#list_yelp_name_' + randomnumber).text(), "The restaurant is: ", {
+            onclick: function() {
+                window.open($('#list_yelp_name_' + randomnumber).attr('href'));
+            }
+        });
+    }
 });

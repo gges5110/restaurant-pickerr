@@ -10,7 +10,6 @@ router.post('/logout', function(request, response) {
                 msg: err
             });
         } else {
-
             response.redirect('/login');
         }
     });

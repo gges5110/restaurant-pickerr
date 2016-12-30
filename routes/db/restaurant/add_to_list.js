@@ -15,7 +15,7 @@ router.post('/db/restaurant/add_to_list', function(request, response) {
     var email = request.body.email;
 
 
-    User.find({email: email}).populate('sharedLists').exec(function(err, user) {
+    User.find({email: email}).populate('sharedLists_own').populate('sharedLists_edit').exec(function(err, user) {
         if (user.length == 0) {
             helper.send_response(response, 'Cannot find this user in database.', 0);
             return;
@@ -99,19 +99,7 @@ router.post('/db/restaurant/add_to_list', function(request, response) {
                         }
                     }
                 });
-            } else {
-                var sharedListId = -1;
-
-                for (var i = 0; i < my_user.sharedLists.length; ++i) {
-                    if (my_user.sharedLists[i].id == list_id) {
-                        sharedListId = i;
-                    }
-                }
-
-                console.log("sharedListId = " + sharedListId);
-                console.log("list_id = " + list_id);
-                console.log("sharedList.restaurants.length = " + my_user.sharedLists[sharedListId].restaurants.length);
-
+            } else {                
                 Restaurant.find({yelp_id: yelp_id}).exec(function(err, restaurant) {
                     if (err) {
                         console.log("Error in finding restaurant.");
@@ -176,7 +164,6 @@ router.post('/db/restaurant/add_to_list', function(request, response) {
                                             }
                                         });
                                     });
-
                                 }
                             })
                         }

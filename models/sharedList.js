@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 
 var sharedListSchema = Schema({
     name: { type: String, required: true },
-    users: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    owner: {type: Schema.Types.ObjectId, ref: 'User'},
+    users:  [{type: Schema.Types.ObjectId, ref: 'User'}],
     restaurants: [{type: Schema.Types.ObjectId, ref: 'Restaurant'}]
 });
 

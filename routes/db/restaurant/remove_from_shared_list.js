@@ -17,7 +17,7 @@ router.post('/db/restaurant/remove_from_shared_list', function(request, response
     var list_id = request.body.list_id.trim();
     var yelp_id = request.body.yelp_id.trim();
     console.log('id = ' + list_id);
-    SharedList.findOne({_id: list_id}).populate('restaurants').populate('users').exec(function(err, shared_list) {
+    SharedList.findOne({_id: list_id}).populate('restaurants').populate('owner').populate('users').exec(function(err, shared_list) {
         if (!shared_list) {
             helper.send_response(response, 'Cannot find the list!', 0);
             return;
@@ -32,7 +32,8 @@ router.post('/db/restaurant/remove_from_shared_list', function(request, response
             }
         }
 
-        if (user_index == -1) {
+        // Check if the user is the owner or one of the editors
+        if (shared_list.owner.email != email && user_index == -1) {
             helper.send_response(response, 'You are not permitted to modify this list!\nPlease contact the list owner.', 0);
             return;
         }

@@ -20,7 +20,7 @@
                     <div class="card-block">
 
                         <div class="col-md-12">
-                            <table class="table table-striped table-hover" style="text-align: left" id="shared_list_table">
+                            <table class="table table-striped table-hover" id="shared_list_table_own">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -31,13 +31,56 @@
                                 <tbody>
                                     <% if (login) { %>
 
-                                        <% for(var i = 0; i < sharedLists.length; ++i) { %>
+                                        <% for(var i = 0; i < user.sharedLists_own.length; ++i) { %>
                                         <tr tabindex="<%= i %>" class="list_table_row">
-                                            <td hidden id="list_id_<%= i%>"><%= sharedLists[i].id %></td>
-                                            <td><a href="/shared_list?list_id=<%= sharedLists[i].id %>" id="list_name_<%= i%>"><%= sharedLists[i].name %></a></td>
+                                            <td hidden id="shared_list_table_own_id_<%= i%>"><%= user.sharedLists_own[i].id %></td>
+                                            <td><a href="/shared_list?list_id=<%= user.sharedLists_own[i].id %>" id="list_name_<%= i%>"><%= user.sharedLists_own[i].name %></a></td>
                                             <td>
                                                 <form action="javascript:void(0);">
                                                     <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_list_btn">Remove</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Others Shared Lists</h4>
+                    </div>
+
+                    <div class="card-block">
+
+                        <div class="col-md-12">
+                            <table class="table table-striped table-hover" id="shared_list_table_edit">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Remove List</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% if (login) { %>
+
+                                        <% for(var i = 0; i < user.sharedLists_edit.length; ++i) { %>
+                                        <tr tabindex="<%= i %>" class="list_table_row">
+                                            <td hidden id="shared_list_table_edit_id_<%= i%>"><%= user.sharedLists_edit[i].id %></td>
+                                            <td><a href="/shared_list?list_id=<%= user.sharedLists_edit[i].id %>" id="list_name_<%= i%>"><%= user.sharedLists_edit[i].name %></a></td>
+                                            <td>
+                                                <form action="javascript:void(0);">
+                                                    <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_list_btn">Leave Group</button>
                                                 </form>
                                             </td>
                                         </tr>

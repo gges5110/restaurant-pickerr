@@ -70,13 +70,19 @@
                                         <% if (login) { %>
                                         List To Add:
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-info" id="select_list_btn"> Bucket List</button>
+                                            <button type="button" class="btn btn-info" id="select_list_btn">Bucket List</button>
                                             <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <div class="dropdown-menu">
-                                            <% for(var i = 0; i < user.sharedLists.length; ++i) { %>
-                                                <a class="dropdown-item" id="<%= user.sharedLists[i].id %>" href="javascript:void(0)"><%= user.sharedLists[i].name %></a>
+                                                <h6 class="dropdown-header">Lists You Own</h6>
+                                            <% for(var i = 0; i < user.sharedLists_own.length; ++i) { %>
+                                                <a class="dropdown-item" id="<%= user.sharedLists_own[i].id %>" href="javascript:void(0)"><%= user.sharedLists_own[i].name %></a>
+                                            <% } %>
+                                                <div class="dropdown-divider"></div>
+                                                <h6 class="dropdown-header">Lists Shared To You</h6>
+                                            <% for(var i = 0; i < user.sharedLists_edit.length; ++i) { %>
+                                                <a class="dropdown-item" id="<%= user.sharedLists_edit[i].id %>" href="javascript:void(0)"><%= user.sharedLists_edit[i].name %></a>
                                             <% } %>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" id="default" href="javascript:void(0)">Bucket List</a>

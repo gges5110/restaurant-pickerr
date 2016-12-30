@@ -21,8 +21,42 @@
                             <h1>Weclome to Restaurant Pickerr!</h1>
                         <% } %>
                         <div class="col-md-12">
+
+                            <form class="form-control" action="javascript:void(0);">
+                                <div class="form-group">
+                                    <label for="add_shared_list_input" class="control-label">Invite link:</label>
+                                    <input type="text" value="<%= invite_link %>" id="invite_link_input" class="form-control"></input>
+                                </div>
+                            </form>
                             <p>
-                                Put some description here.
+                                Owner:
+                                <% if(sharedList.owner.email == email) { %>
+                                     You
+                                <% } else { %>
+                                    <%= sharedList.owner.name %>
+                                <% } %>
+                                <br/>
+
+                                Users:
+                                <% if(sharedList.users.length == 0) { %>
+                                    none
+                                <% } else { %>
+                                    <% for (var user_index = 0; user_index < sharedList.users.length; ++user_index) { %>
+                                        <% if (user_index != sharedList.users.length - 1) {%>
+                                            <%= sharedList.users[user_index].name %>,
+                                        <% } else {%>
+                                            <%= sharedList.users[user_index].name %>
+                                        <% } %>
+
+                                    <% } %>
+                                <% } %>
+                                <br/>
+
+                                <% if(restaurants.length == 0) { %>
+                                    Looks like it's pretty empty here! Go to <a href="/yelp">Search Yelp</a> and add some items!
+                                <% } %>
+
+                                <button type="submit" class="btn btn-outline-primary" id="pick_btn">Pick for me!</button>
                             </p>
                         </div>
                     </div>
@@ -34,7 +68,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-block">
-                        <h4 class="card-title">Your Shared List</h4>
+                        <h4 class="card-title">Restaurants</h4>
                         <% if (login) { %>
                         <h6 class="card-subtitle text-muted">
                             <span class="tag tag-default tag-pill" id="number_of_results"><%= restaurants.length %></span>
@@ -60,7 +94,13 @@
                                     <td><a href="<%= restaurants[i].url %>" id="list_yelp_name_<%= i%>"><%= restaurants[i].name %></a></td>
                                     <td><img src="<%= restaurants[i].rating_img_url %>"></td>
                                     <td>
-
+                                        <% for(var j = 0; j < restaurants[i].categories.length; ++j) { %>
+                                            <% if (j != restaurants[i].categories.length - 1) {%>
+                                                <%= restaurants[i].categories[j] %>,
+                                            <% } else {%>
+                                                <%= restaurants[i].categories[j] %>
+                                            <% } %>
+                                        <% } %>
                                     </td>
                                     <td><a href="https://www.google.com/maps?q=<%= encodeURIComponent(restaurants[i].address) %>" target="_blank"><%= restaurants[i].address %></a></td>
                                     <td>

@@ -32,10 +32,14 @@ $(document).on('click', '#remove_from_list_btn', function(event) {
 
 $(document).on('click', '#pick_btn', function(event) {
     var rowCount = $('#yelp_table tbody tr').length;
-    var randomnumber = Math.floor(Math.random() * rowCount);
-    toastr.success($('#list_yelp_name_' + randomnumber).text(), "The restaurant is: ", {
-        onclick: function() {
-            window.open($('#list_yelp_name_' + randomnumber).attr('href'));
-        }
-    });
+    if (rowCount == 0) {
+        toastr.warning('Your list is empty, please add some items.');
+    } else {
+        var randomnumber = Math.floor(Math.random() * rowCount);
+        toastr.success($('#list_yelp_name_' + randomnumber).text(), "The restaurant is: ", {
+            onclick: function() {
+                window.open($('#list_yelp_name_' + randomnumber).attr('href'));
+            }
+        });
+    }
 });

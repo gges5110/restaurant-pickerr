@@ -19,6 +19,7 @@ var routes_yelp = require('./routes/yelp.js');
 var routes_bucketlist = require('./routes/bucketlist.js');
 var router_shared_list = require('./routes/shared_list.js');
 var router_manage_shared_list = require('./routes/manage_shared_list.js');
+var router_invite = require('./routes/invite.js');
 
 var router_db_user_create = require('./routes/db/user/create.js');
 var router_db_user_login = require('./routes/db/user/login.js');
@@ -76,6 +77,7 @@ app.use(routes_yelp)
 app.use(routes_bucketlist);
 app.use(router_shared_list);
 app.use(router_manage_shared_list);
+app.use(router_invite);
 
 //------------------------------------
 //       DATABASE OPERATIONS

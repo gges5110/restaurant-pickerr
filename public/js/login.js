@@ -25,19 +25,14 @@ $(document).on('click', '#login_btn', function(event) {
                 if (data.status == "error") {
                     toastr.warning(data.message);
                 } else {
-                    toastr.success("User Login!");
-                    window.location.href = "/";
+                    toastr.success(data.message);
+                    window.location.href = data.redirect;
                 }
                 NProgress.done(true);
 
             }
         });
-        // NProgress.done(true);
     }
-
-
-
-
 });
 
 $(document).on('click', '#signup_btn', function(event) {

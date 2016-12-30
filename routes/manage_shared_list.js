@@ -13,8 +13,7 @@ router.get('/manage_shared_list', function(request, response) {
         name = request.session.name;
     }
 
-    sharedLists = [];
-    User.findOne({email: email}).populate('sharedLists').exec(function(err, user) {
+    User.findOne({email: email}).populate('sharedLists_own').populate('sharedLists_edit').exec(function(err, user) {
         if (err) {
             console.log('err');
         } else if(!user) {
@@ -25,16 +24,11 @@ router.get('/manage_shared_list', function(request, response) {
             });
             return;
         } else {
-            console.log("User sharedLists length = " + user.sharedLists.length);
-            for (var i = 0; i < user.sharedLists.length; ++i) {
-                sharedLists.push(user.sharedLists[i]);
-            }
-
             response.render('pages/manage_shared_list', {
                 login: login,
                 email: email,
                 name: name,
-                sharedLists: user.sharedLists
+                user: user
             });
         }
     });
