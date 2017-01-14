@@ -67,17 +67,18 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Owner</th>
                                         <th>Remove List</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <% if (login) { %>
-
                                         <% for(var i = 0; i < user.sharedLists_edit.length; ++i) { %>
                                         <tr tabindex="<%= i %>" class="list_table_row">
                                             <td hidden id="shared_list_table_edit_id_<%= i%>"><%= user.sharedLists_edit[i].id %></td>
                                             <td><a href="/shared_list?list_id=<%= user.sharedLists_edit[i].id %>" id="list_name_<%= i%>"><%= user.sharedLists_edit[i].name %></a></td>
+                                            <td><%= user.sharedLists_edit[i].owner.name %></td>
                                             <td>
                                                 <form action="javascript:void(0);">
                                                     <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_list_btn">Leave Group</button>
@@ -85,7 +86,6 @@
                                             </td>
                                         </tr>
                                         <% } %>
-
                                     <% } %>
                                 </tbody>
                             </table>
@@ -123,13 +123,37 @@
         </div>
 
         </div>
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $(".nav li").removeClass("active");//this will remove the active class from
-                                           //previously active menu item
-                    $('#nav_li_manage_shared_list').addClass('active');
-                });
-            </script>
-            <!-- <% include ../partials/footer.ejs %> -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure?
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="leave_group_modal_btn">Leave Group</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".nav li").removeClass("active");
+                $('#nav_li_manage_shared_list').addClass('active');
+            });
+        </script>
+        <!-- <% include ../partials/footer.ejs %> -->
     </body>
 </html>

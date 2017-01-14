@@ -1,3 +1,8 @@
+$(document).ready(function() {
+    new Clipboard('.btn');
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 $(document).on('click', '#remove_from_list_btn', function(event) {
     NProgress.start();
 

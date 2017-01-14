@@ -54,7 +54,7 @@ var yelp_query = (function() {
                      }
                  }
                  items.push( "</td>");
-                 items.push( "<td><a id='result_address_" + i + "' href='https://www.google.com/maps?q=" + encodeURIComponent(data.results[i].address) + "' target='_blank'>" + data.results[i].address +"</a></td>");
+                 items.push( "<td><a id='result_address_" + i + "' href='https://www.google.com/maps?q=" + encodeURIComponent(data.results[i].display_address) + "' target='_blank'>" + data.results[i].display_address +"</a></td>");
 
                  items.push( "<td>");
                  if (!data.results[i].in_list) {

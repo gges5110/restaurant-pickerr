@@ -1,3 +1,7 @@
+$(document).ready(function() {
+
+});
+
 $(document).on('click', '#add_shared_list_btn', function(event) {
     if ($('#add_shared_list_input').val() == "") {
         toastr.warning('Please provide a name!');
@@ -39,11 +43,13 @@ $(document).on('click', '#add_shared_list_btn', function(event) {
     });
 });
 
-$(document).on('click', '#remove_list_btn', function(event) {
-    NProgress.start();
-    var table_id = $(this).closest('table').attr('id');
-    var index = $(this).attr('tabindex');
+var table_id, index;
 
+$(document).on('click', '#leave_group_modal_btn', function(event) {
+    $('#myModal').modal('hide');
+    console.log('table_id = ' + table_id);
+
+    NProgress.start();
     $.ajax({
         url: '/db/shared_list/delete',
         method: 'POST',
@@ -62,4 +68,11 @@ $(document).on('click', '#remove_list_btn', function(event) {
             NProgress.done(true);
         }
     });
+})
+
+$(document).on('click', '#remove_list_btn', function(event) {
+    table_id = $(this).closest('table').attr('id');
+    index = $(this).attr('tabindex');
+
+    $('#myModal').modal('show');
 });

@@ -7,26 +7,27 @@
     <body>
 
         <div class="container">
-        <% include ../partials/nav.ejs %>
+            <% include ../partials/nav.ejs %>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="jumbotron">
-                    <div class="container">
-                        <h1>Weclome to Restaurant Pickerr!</h1>
-                        <div class="col-md-12">
-                            <p>
-                                This website will help you pick a restaurant! <br/>
-                                Go to Search Yelp page and search for some restaurants! <br/>
-                                You can save the search results to your bucketlist (login required).
-                            </p>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1>Weclome to Restaurant Pickerr!</h1>
+                            <div class="col-md-12">
+                                <p>
+                                    This website will help you pick a restaurant! <br/>
+                                    Go to Search Yelp page and search for some restaurants! <br/>
+                                    You can save the search results to your bucketlist (login required).
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        </div>
+        <% include ../partials/footer.ejs %>
             <script type="text/javascript">
                 $(document).ready(function () {
                     $(".nav li").removeClass("active");//this will remove the active class from

@@ -17,43 +17,43 @@ var yelp = new Yelp({
 router.get('/api/yelp', function(request, response) {
     var lat = 0;
     var lng = 0;
-
-    if (request.query.lat) {
-        lat = request.query.lat;
-    }
-    if (request.query.lng) {
-        lng = request.query.lng
-    }
-
+    var latlng = "";
     var sort_mode = 0;
+    var term = 'Japanese food';
+    var location = "";
+
+    if (request.query.lat && request.query.lng) {
+        lat = request.query.lat;
+        lng = request.query.lng;
+        latlng = lat.toString() + "," + lng.toString();
+    }
+
+
     if (request.query.sort_mode) {
         sort_mode = request.query.sort_mode;
     }
 
-    latlng = lat.toString() + "," + lng.toString();
+    if (request.query.zipcode) {
+        var location = request.query.zipcode;
+    }
 
-    var location = request.query.zipcode;
+    console.log("location: " + location);
+
     // See http://www.yelp.com/developers/documentation/v2/search_api
-    var term = 'Japanese food';
+
     if (request.query.term) {
         term = request.query.term;
         console.log("New term: " + term);
     }
 
     var limit = 20;
-    // console.log("request.query.limit = " + request.query.limit);
     if (request.query.limit) {
         limit = request.query.limit;
     }
 
-    yelp.search(
-        {   term: term,
-            // location: location,
-            ll: latlng,
-            limit: limit,
-            sort: sort_mode
-    })
-    .then(function (data) {
+
+
+    var yelpSearchCallback = function (data) {
         // TODO: parse JSON here.
 
         var myObject = {};
@@ -95,8 +95,12 @@ router.get('/api/yelp', function(request, response) {
                             temp.categories.push(data.businesses[i].categories[j][0]);
                         }
                         temp.address = "";
+                        for (var j = 0; j < data.businesses[i].location.address.length; ++j) {
+                            temp.address += data.businesses[i].location.address[j] + " ";
+                        }
+                        temp.display_address = "";
                         for (var j = 0; j < data.businesses[i].location.display_address.length; ++j) {
-                            temp.address += data.businesses[i].location.display_address[j] + " ";
+                            temp.display_address += data.businesses[i].location.display_address[j] + " ";
                         }
 
                         temp.rating_img_url = data.businesses[i].rating_img_url;
@@ -124,8 +128,12 @@ router.get('/api/yelp', function(request, response) {
                     temp.categories.push(data.businesses[i].categories[j][0]);
                 }
                 temp.address = "";
+                for (var j = 0; j < data.businesses[i].location.address.length; ++j) {
+                    temp.address += data.businesses[i].location.address[j] + " ";
+                }
+                temp.display_address = "";
                 for (var j = 0; j < data.businesses[i].location.display_address.length; ++j) {
-                    temp.address += data.businesses[i].location.display_address[j] + " ";
+                    temp.display_address += data.businesses[i].location.display_address[j] + " ";
                 }
 
                 temp.rating_img_url = data.businesses[i].rating_img_url;
@@ -139,14 +147,31 @@ router.get('/api/yelp', function(request, response) {
             // console.log(data);
             response.send(myObject);
         }
+    };
 
-
-
-
-    })
-    .catch(function (err) {
-        console.error(err);
-    });
+    if (request.query.lat && request.query.lng) {
+        yelp.search(
+            {   term: term,
+                ll: latlng,
+                limit: limit,
+                sort: sort_mode
+        })
+        .then(yelpSearchCallback)
+        .catch(function (err) {
+            console.error(err);
+        });
+    } else {
+        yelp.search(
+            {   term: term,
+                location: location,
+                limit: limit,
+                sort: sort_mode
+        })
+        .then(yelpSearchCallback)
+        .catch(function (err) {
+            console.error(err);
+        });
+    }
 
 });
 

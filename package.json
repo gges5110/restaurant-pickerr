@@ -1,7 +1,7 @@
 {
   "name": "restaurant-pickerr",
   "version": "0.2.5",
-  "description": "A Node.js app using Express 4",
+  "description": "restaurant-pickerr",
   "engines": {
     "node": "5.9.1"
   },
