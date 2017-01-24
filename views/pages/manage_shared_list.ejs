@@ -48,6 +48,18 @@
                             </table>
                         </div>
 
+                        <div class="col-md-12">
+
+                            <form class="form-control" action="javascript:void(0);">
+                                <div class="form-group">
+                                    <label for="add_shared_list_input" class="control-label">Name</label>
+                                    <input type="text" id="add_shared_list_input" name="add_shared_list_input" class="form-control"></input>
+                                </div>
+
+                                <button type="submit" class="btn btn-outline-success" id="add_shared_list_btn">Add List</button>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -96,32 +108,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Add Shared Lists</h4>
-                    </div>
-
-                    <div class="card-block">
-
-                        <div class="col-md-12">
-
-                            <form class="form-control" action="javascript:void(0);">
-                                <div class="form-group">
-                                    <label for="add_shared_list_input" class="control-label">Name</label>
-                                    <input type="text" id="add_shared_list_input" name="add_shared_list_input" class="form-control"></input>
-                                </div>
-
-                                <button type="submit" class="btn btn-outline-success" id="add_shared_list_btn">Add List</button>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
         </div>
 
         <!-- Modal -->
@@ -129,10 +115,13 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Remove list: <a id="modal_list_name"></a>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </h5>
+
               </div>
               <div class="modal-body">
                 Are you sure?
@@ -140,7 +129,7 @@
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="leave_group_modal_btn">Leave Group</button>
+                <button type="button" class="btn btn-danger" id="leave_group_modal_btn">Remove</button>
               </div>
             </div>
           </div>

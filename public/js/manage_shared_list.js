@@ -74,5 +74,6 @@ $(document).on('click', '#remove_list_btn', function(event) {
     table_id = $(this).closest('table').attr('id');
     index = $(this).attr('tabindex');
 
+    $('#modal_list_name').text($('#' + table_id + ' #list_name_' + index).text());
     $('#myModal').modal('show');
 });

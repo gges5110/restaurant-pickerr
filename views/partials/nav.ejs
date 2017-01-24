@@ -25,6 +25,13 @@
             <li class="nav-item" id="nav_li_manage_shared_list">
                 <a class="nav-link" href="/manage_shared_list"> Shared List</a>
             </li>
+            <% } else { %>
+            <li class="nav-item" id="nav_li_bucketlist">
+                <a class="nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom" title="Please Login First"> Bucket List</a>
+            </li>
+            <li class="nav-item" id="nav_li_manage_shared_list">
+                <a class="nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom" title="Please Login First"> Shared List</a>
+            </li>
             <% } %>
         </ul>
         <ul class="nav navbar-nav pull-xs-right">

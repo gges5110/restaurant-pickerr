@@ -1,6 +1,9 @@
 $(document).ready(function() {
     new Clipboard('.btn');
-    $('[data-toggle="tooltip"]').tooltip();
+});
+
+$(document).on('click', '#copy_btn', function(event) {
+    toastr.success('Copied invite link to clipboard!');
 });
 
 $(document).on('click', '#remove_from_list_btn', function(event) {
