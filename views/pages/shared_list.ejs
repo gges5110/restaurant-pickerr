@@ -78,7 +78,7 @@
                             Restaurants
                             <% if (login) { %>
                                 <span class="tag tag-default tag-pill" id="number_of_results"><%= restaurants.length %></span>
-                            <% } %>                            
+                            <% } %>
                         </h4>
 
                         <table class="table table-striped table-hover" style="text-align: left" id="yelp_table">
@@ -112,7 +112,7 @@
                                     <td><a href="https://www.google.com/maps?q=<%= encodeURIComponent(restaurants[i].address) %>" target="_blank"><%= restaurants[i].address %></a></td>
                                     <td>
                                         <form action="javascript:void(0);">
-                                            <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_from_list_btn">Remove</button>
+                                            <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_from_list_btn"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
                                         </form>
                                     </td>
                                 </tr>

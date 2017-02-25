@@ -17,9 +17,9 @@
                     <div class="card">
                         <div class="card-header">
                             <% if (login) { %>
-                                <h1 class="card-title">Search on Yelp, <%= user.name %>! </h1>
+                                <h1 class="card-title">Search Yelp, <%= user.name %>! </h1>
                             <% } else { %>
-                                <h1 class="card-title">Search on Yelp!</h1>
+                                <h1 class="card-title">Search Yelp!</h1>
                             <% } %>
                         </div>
 
@@ -68,7 +68,7 @@
                                         <button type="submit" class="btn btn-primary" id="find_btn">Find</button>
 
                                         <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                            Advanced Search
+                                            <i class="fa fa-filter" aria-hidden="true"></i> Advanced Search
                                         </button>
                                     </div>
 
@@ -92,7 +92,7 @@
                                 <span class="tag tag-success" id="category_label"></span>
                                 <span class="tag tag-danger" id="location_label"></span>
                             </h4>
-                            
+
                             <table class="table table-striped table-hover" style="text-align: left" id="yelp_table">
                                 <thead>
                                     <tr>

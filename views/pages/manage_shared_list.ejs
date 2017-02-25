@@ -37,7 +37,7 @@
                                             <td><a href="/shared_list?list_id=<%= user.sharedLists_own[i].id %>" id="list_name_<%= i%>"><%= user.sharedLists_own[i].name %></a></td>
                                             <td>
                                                 <form action="javascript:void(0);">
-                                                    <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_list_btn">Remove</button>
+                                                    <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_list_btn"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -52,11 +52,11 @@
 
                             <form class="form-control" action="javascript:void(0);">
                                 <div class="form-group">
-                                    <label for="add_shared_list_input" class="control-label">Name</label>
-                                    <input type="text" id="add_shared_list_input" name="add_shared_list_input" class="form-control"></input>
+                                    <label for="add_shared_list_input" class="control-label">Create List</label>
+                                    <input type="text" placeholder="Name" id="add_shared_list_input" name="add_shared_list_input" class="form-control"></input>
                                 </div>
 
-                                <button type="submit" class="btn btn-outline-success" id="add_shared_list_btn">Add List</button>
+                                <button type="submit" class="btn btn-outline-success" id="add_shared_list_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add List</button>
                             </form>
                         </div>
 
@@ -93,7 +93,7 @@
                                             <td><%= user.sharedLists_edit[i].owner.name %></td>
                                             <td>
                                                 <form action="javascript:void(0);">
-                                                    <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_list_btn">Leave Group</button>
+                                                    <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_list_btn"><i class="fa fa-trash" aria-hidden="true"></i> Leave Group</button>
                                                 </form>
                                             </td>
                                         </tr>
