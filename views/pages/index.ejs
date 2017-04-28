@@ -29,13 +29,11 @@
         </div>
 
         <% include ../partials/footer.ejs %>
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $(".nav li").removeClass("active");//this will remove the active class from
-                                           //previously active menu item
-                    $('#nav_li_home').addClass('active');
-                });
-            </script>
-            <!-- <% include ../partials/footer.ejs %> -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".nav li").removeClass("active");
+                $('#nav_li_home').addClass('active');
+            });
+        </script>
     </body>
 </html>
