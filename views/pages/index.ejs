@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-      <% include ../partials/header.ejs %>
-    </head>
+  <head>
+    <% include ../partials/header.ejs %>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
 
-    <body>
+  <body>
 
-        <div class="container">
-            <% include ../partials/nav.ejs %>
+    <div class="container">
+        <% include ../partials/nav.ejs %>
 
-            <div class="row">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="jumbotron">
+              <div class="container">
+                <h1>Weclome to Restaurant Pickerr!</h1>
                 <div class="col-md-12">
-                    <div class="jumbotron">
-                        <div class="container">
-                            <h1>Weclome to Restaurant Pickerr!</h1>
-                            <div class="col-md-12">
-                                <p>
-                                    This website will help you pick a restaurant! <br/>
-                                    Go to <a href="/yelp">Search Yelp</a> page and search for some restaurants! <br/>
-                                    You can save the search results to your <a href="/bucketlist">bucketlist</a> (login required). <br/>
-                                    Create a new list and share it with your friend!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                  <p>
+                      This website will help you pick a restaurant! <br/>
+                      Go to <a href='/yelp'>Search Yelp</a> page and search for some restaurants! <br/>
+                      You can save the search results to your <a href='/bucketlist'>bucketlist</a> (login required). <br/>
+                      Create a new list and share it with your friend!
+                  </p>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+    </div>
 
-        <% include ../partials/footer.ejs %>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $(".nav li").removeClass("active");
-                $('#nav_li_home').addClass('active');
-            });
-        </script>
-    </body>
+    <% include ../partials/footer.ejs %>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".nav li").removeClass("active");
+            $('#nav_li_home').addClass('active');
+        });
+    </script>
+  </body>
 </html>

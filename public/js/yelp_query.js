@@ -1,6 +1,25 @@
 $(document).ready(function () {
     $(".nav li").removeClass("active");//this will remove the active class from previously active menu item
     $('#nav_li_yelp').addClass('active');
+
+    var app1 = new Vue({
+      el: '#app1',
+      data: {
+        foodType: 'Japanese',
+        lastName: '<%= user.name %>',
+        url: 'http://google.com'
+      },
+      methods: {
+        say: function (message) {
+          alert(message)
+        }
+      },
+      computed: {
+        fullName: function () {
+          return this.firstName + ' ' + this.lastName
+        }
+      }
+    })
 });
 
 var lat, lng;
