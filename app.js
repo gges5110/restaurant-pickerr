@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 
 var bodyParser = require('body-parser');
 
-require('./database');
+var load_database = require('./load_database');
+load_database();
 
 //------------------------------------
 //          TEMPLATE ROUTING
