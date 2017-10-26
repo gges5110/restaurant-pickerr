@@ -3,7 +3,27 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var User = require('../../models/user.js');
 var Restaurant = require('../../models/restaurant.js');
-var yelp_credentials = require('../../credentials.js');
+
+var yelp_credentials;
+if (process.env.YELP_CREDENTIALS_CONSUMER_KEY != null &&
+  process.env.YELP_CREDENTIALS_CONSUMER_SECRET != null &&
+  process.env.YELP_CREDENTIALS_TOKEN != null &&
+  process.env.YELP_CREDENTIALS_TOKEN_SECRET != null) {
+  yelp_credentials = {};
+  yelp_credentials.consumer_key = process.env.YELP_CREDENTIALS_CONSUMER_KEY;
+  yelp_credentials.consumer_secret = process.env.YELP_CREDENTIALS_CONSUMER_SECRET;
+  yelp_credentials.token = process.env.YELP_CREDENTIALS_TOKEN;
+  yelp_credentials.token_secret = process.env.YELP_CREDENTIALS_TOKEN_SECRET;
+  console.log('Using Yelp credentials from env variables.')
+} else {
+  try {
+    yelp_credentials = require('../../credentials.js');
+    console.log('Using Yelp credentials from file.')
+  } catch (e) {
+    console.log("Please provide yelp credentials at the top level folder.");
+    throw(e);
+  }
+}
 
 var Yelp = require('yelp');
 

@@ -1,26 +1,28 @@
 {
   "name": "restaurant-pickerr",
-  "version": "0.2.5",
+  "version": "1.0.0",
   "description": "restaurant-pickerr",
   "engines": {
     "node": "5.9.1"
   },
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha --timeout 10000 --exit"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
     "ejs": "2.4.1",
     "express": "4.13.3",
     "express-session": "^1.7.6",
+    "mocha": "^4.0.1",
     "mongoose": "^4.6.3",
+    "supertest": "^3.0.0",
     "yelp": "^1.0.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
   },
   "keywords": [
     "node",
