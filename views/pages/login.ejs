@@ -1,62 +1,64 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <% include ../partials/header.ejs %>
-        <script type="text/javascript" src="/js/login.js"></script>
-    </head>
 
-    <body>
-        <div class="container">
-            <% include ../partials/nav.ejs %>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card card-block">
-                    <h3 class="card-title">Login</h3>
-                    <form class="form-control" action="javascript:void(0);">
-                        <div class="form-group">
-                            <label for="login_email_input" class="control-label">Email</label>
-                            <input type="email" id="login_email_input" name="login_email_input" value="" class="form-control" placeholder="Your Email"></input>
-                        </div>
+<head>
+  <% include ../partials/header.ejs %>
+    <script type="text/javascript" src="/js/login.js"></script>
+</head>
 
-                        <div class="form-group">
-                            <label for="login_password_input" class="control-label">Password</label>
-                            <input type="password" id="login_password_input" name="login_password_input" value="" class="form-control" placeholder="Your Password"></input>
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary" id="login_btn">Login</button>
-                    </form>
-                    </div>
-                </div>
+<body>
+  <div class="container">
+    <% include ../partials/nav.ejs %>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card card-block">
+            <h3 class="card-title">Login</h3>
+            <form class="form-control" action="javascript:void(0);">
+              <div class="form-group">
+                <label for="login_email_input" class="control-label">Email</label>
+                <input type="email" id="login_email_input" name="login_email_input" value="" class="form-control" placeholder="Your Email"></input>
+              </div>
 
-                <div class="col-sm-6">
-                    <div class="card card-block">
-                    <h3 class="card-title">Sign Up</h3>
-                    <form class="form-control" action="javascript:void(0);">
-                        <div class="form-group">
-                            <label for="signup_email_input" class="control-label">Email</label>
-                            <input type="email" id="signup_email_input" name="signup_email_input" value="" class="form-control"></input>
-                            <small id="email_help" class="form-text text-muted">You will not be able to change your email once you have signed up.</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="signup_name_input" class="control-label">Name</label>
-                            <input type="text" id="signup_name_input" name="signup_name_input" value="" class="form-control"></input>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="signup_password_input" class="control-label">Password</label>
-                            <input type="password" id="signup_password_input" name="signup_password_input" value="" class="form-control"></input>
-                        </div>
-                        <div class="form-group">
-                            <label for="signup_password_confirm_input" class="control-label">Confirm Password</label>
-                            <input type="password" id="signup_password_confirm_input" name="signup_password_confirm_input" value="" class="form-control"></input>
-                        </div>
-                        <button type="submit" class="btn btn-outline-danger" id="signup_btn">Sign Up</button>
-                    </form>
-
-                    </div>
-                </div>
-            </div>
-
+              <div class="form-group">
+                <label for="login_password_input" class="control-label">Password</label>
+                <input type="password" id="login_password_input" name="login_password_input" value="" class="form-control" placeholder="Your Password"></input>
+              </div>
+              <button type="submit" class="btn btn-outline-primary" id="login_btn">Login</button>
+            </form>
+          </div>
         </div>
-    </body>
+
+        <div class="col-sm-6">
+          <div class="card card-block">
+            <h3 class="card-title">Sign Up</h3>
+            <form class="form-control" action="javascript:void(0);">
+              <div class="form-group">
+                <label for="signup_email_input" class="control-label">Email</label>
+                <input type="email" id="signup_email_input" name="signup_email_input" value="" class="form-control"></input>
+                <small id="email_help" class="form-text text-muted">You will not be able to change your email once you have signed up.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="signup_name_input" class="control-label">Name</label>
+                <input type="text" id="signup_name_input" name="signup_name_input" value="" class="form-control"></input>
+              </div>
+
+              <div class="form-group">
+                <label for="signup_password_input" class="control-label">Password</label>
+                <input type="password" id="signup_password_input" name="signup_password_input" value="" class="form-control"></input>
+              </div>
+              <div class="form-group">
+                <label for="signup_password_confirm_input" class="control-label">Confirm Password</label>
+                <input type="password" id="signup_password_confirm_input" name="signup_password_confirm_input" value="" class="form-control"></input>
+              </div>
+              <button type="submit" class="btn btn-outline-danger" id="signup_btn">Sign Up</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+  </div>
+</body>
+
 </html>

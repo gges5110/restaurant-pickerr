@@ -1,83 +1,95 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <% include ../partials/header.ejs %>
-      <script type="text/javascript" src="/js/bucketlist.js"></script>
-    </head>
 
-    <body>
-        <div class="container">
-            <% include ../partials/nav.ejs %>
+<head>
+  <% include ../partials/header.ejs %>
+    <script type="text/javascript" src="/js/bucketlist.js"></script>
+</head>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="jumbotron" style="margin-top: 0%;">
-                        <div class="container">
-                            <h1>Weclome to Bucketlist!</h1>
-                            <div class="col-md-12">
-                                <p>Here is the list of restaurants you saved! </p>
-                                <button type="submit" class="btn btn-outline-primary" id="pick_btn">Pick for me!</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<body>
+  <div class="container">
+    <% include ../partials/nav.ejs %>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="jumbotron" style="margin-top: 0%;">
+            <div class="container">
+              <h1>Weclome to Bucketlist!</h1>
+              <div class="col-md-12">
+                <p>Here is the list of restaurants you saved! </p>
+                <button type="submit" class="btn btn-outline-primary" id="pick_btn">Pick for me!</button>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <h4 class="card-title">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-block">
+              <h4 class="card-title">
                                 Your Bucket List
                                 <% if (login) { %>
                                     <span class="tag tag-default tag-pill" id="number_of_results"><%= restaurants.length %></span>
                                 <% } %>
                             </h4>
 
-                            <table class="table table-striped table-hover" style="text-align: left" id="yelp_table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Rating</th>
-                                        <th>Category</th>
-                                        <th>Address</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
+              <table class="table table-striped table-hover" style="text-align: left" id="yelp_table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Rating</th>
+                    <th>Category</th>
+                    <th>Address</th>
+                    <th></th>
+                  </tr>
+                </thead>
 
-                                <tbody>
-                                    <% if (login) { %>
+                <tbody>
+                  <% if (login) { %>
 
-                                    <% for(var i = 0; i < restaurants.length; ++i) { %>
-                                    <tr tabindex="<%= i %>" class="list_table_row">
-                                        <td hidden id="list_yelp_id_<%= i%>"><%= restaurants[i].yelp_id %></td>
-                                        <td><a href="<%= restaurants[i].url %>" id="list_yelp_name_<%= i%>" target="_blank"><%= restaurants[i].name %></a></td>
-                                        <td><img src="<%= restaurants[i].rating_img_url %>"></td>
-                                        <td>
-                                        <% for(var j = 0; j < restaurants[i].categories.length; ++j) { %>
-                                            <% if (j != restaurants[i].categories.length - 1) {%>
-                                                <%= restaurants[i].categories[j] %>,
-                                            <% } else {%>
-                                                <%= restaurants[i].categories[j] %>
-                                            <% } %>
-                                        <% } %>
-                                        </td>
-                                        <td><a href="https://www.google.com/maps?q=<%= encodeURIComponent(restaurants[i].address) %>" target="_blank"><%= restaurants[i].address %></a></td>
-                                        <td>
-                                            <form action="javascript:void(0);">
-                                                <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_from_list_btn"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                    <% for(var i = 0; i < restaurants.length; ++i) { %>
+                      <tr tabindex="<%= i %>" class="list_table_row">
+                        <td hidden id="list_yelp_id_<%= i%>">
+                          <%= restaurants[i].yelp_id %>
+                        </td>
+                        <td>
+                          <a href="<%= restaurants[i].url %>" id="list_yelp_name_<%= i%>" target="_blank">
+                            <%= restaurants[i].name %>
+                          </a>
+                        </td>
+                        <td><img src="<%= restaurants[i].rating_img_url %>"></td>
+                        <td>
+                          <% for(var j = 0; j < restaurants[i].categories.length; ++j) { %>
+                            <% if (j != restaurants[i].categories.length - 1) {%>
+                              <%= restaurants[i].categories[j] %>,
+                                <% } else {%>
+                                  <%= restaurants[i].categories[j] %>
                                     <% } %>
+                                      <% } %>
+                        </td>
+                        <td>
+                          <a href="https://www.google.com/maps?q=<%= encodeURIComponent(restaurants[i].address) %>" target="_blank">
+                            <%= restaurants[i].address %>
+                          </a>
+                        </td>
+                        <td>
+                          <form action="javascript:void(0);">
+                            <button type="submit" class="btn btn-outline-danger" tabindex="<%= i %>" id="remove_from_list_btn"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
+                          </form>
+                        </td>
+                      </tr>
+                      <% } %>
 
-                                    <% } %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                        <% } %>
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>
-    </body>
+      </div>
+  </div>
+</body>
+
 </html>
