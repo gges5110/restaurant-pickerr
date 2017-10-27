@@ -6,8 +6,9 @@ var cookieParser = require('cookie-parser');
 
 var bodyParser = require('body-parser');
 
+require('dotenv').config()
 var load_database = require('./load_database');
-load_database();
+
 
 //------------------------------------
 //          TEMPLATE ROUTING
@@ -114,8 +115,15 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+var exports = module.exports = {};
+
 var server = app.listen(app.get('port'), function() {
+  load_database.load_database();
   console.log('Node app is running on port', app.get('port'));
 });
 
-module.exports = server;
+exports.server = server;
+exports.close = function() {
+  server.close();
+  load_database.close();
+}

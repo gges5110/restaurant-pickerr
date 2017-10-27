@@ -9,20 +9,21 @@ let should = chai.should();
 chai.use(chaiHttp);
 
 describe('Basic route testing', () => {
-  var server;
+  var app;
   beforeEach(function () {
     delete require.cache[require.resolve('../app')];
-    // Re import environment vairables    
+    // Re import environment vairables
     require('dotenv').config()
-    server = require('../app');
+    app = require('../app');
   });
   afterEach(function (done) {
-    server.close(done);
-    console.log('Server closed.');
+    app.close();
+    console.log('app closed.');
+    done();
   });
 
   it('it should GET the index page', (done) => {
-    chai.request(server)
+    chai.request(app.server)
       .get('/')
       .end((err, res) => {
           res.should.have.status(200);

@@ -8,14 +8,19 @@ let should = chai.should();
 let assert = chai.assert, expect = chai.expect;
 
 describe('Load database', () => {
+  let load_database;
+  afterEach(() => {
+    load_database.close();
+  });
+
   it('it should not throw when loading load_database.js', () => {
-    let load_database = require('../load_database');
-    expect(load_database).to.not.throw();
+    load_database = require('../load_database');
+    expect(load_database.load_database).to.not.throw();
   });
 
   it('it should throw an error if process.env.MONGODB_URI not found', () => {
     delete process.env.MONGODB_URI;
-    let load_database = require('../load_database');
-    expect(load_database).to.throw();
+    load_database = require('../load_database');
+    expect(load_database.load_database).to.throw();
   })
 });

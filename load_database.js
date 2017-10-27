@@ -2,13 +2,19 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-var load_database = function() {
+var exports = module.exports = {};
+
+exports.load_database = function() {
   if (process.env.MONGODB_URI === undefined || process.env.MONGODB_URI == null ) {
     throw "Please provide a process.env.MONGODB_URI variable that points to the URL of the database.";
   } else {
     // Lets connect to our database using the DB server URL.
-
-    mongoose.createConnection(process.env.MONGODB_URI, function(err) {
+    if (mongoose.connection.db) {
+      // Don't open another session if connection already exists.
+      console.log('A connection already exists');
+      return;
+    }
+    mongoose.connect(process.env.MONGODB_URI, function(err) {
       if (err) {
         console.log(err);
         throw "The process.env.MONGODB_URI provided is not valid.";
@@ -19,4 +25,8 @@ var load_database = function() {
   }
 }
 
-module.exports = load_database;
+exports.close = function() {
+  mongoose.disconnect(() => {
+    console.log('disconnect from mongoose');
+  });
+}
