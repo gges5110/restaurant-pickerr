@@ -14,7 +14,7 @@ describe('Load database', () => {
   });
 
   it('it should throw an error if process.env.MONGODB_URI not found', () => {
-    process.env.MONGODB_URI = null;
+    delete process.env.MONGODB_URI;
     let load_database = require('../load_database');
     expect(load_database).to.throw();
   })

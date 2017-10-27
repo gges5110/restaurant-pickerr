@@ -8,15 +8,17 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('/GET', () => {
+describe('Basic route testing', () => {
   var server;
   beforeEach(function () {
     delete require.cache[require.resolve('../app')];
+    // Re import environment vairables    
+    require('dotenv').config()
     server = require('../app');
   });
   afterEach(function (done) {
     server.close(done);
-    console.log('Server closed.')
+    console.log('Server closed.');
   });
 
   it('it should GET the index page', (done) => {
