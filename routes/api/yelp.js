@@ -137,7 +137,7 @@ router.get('/api/yelp', function(request, response) {
             });
 
         } else {
-            console.log('not request.body.email');
+            console.log('User did not log in.');
             for (var i = 0, len = data.businesses.length; i < len; ++i) {
                 var temp = {};
                 temp.yelp_id = data.businesses[i].id;
