@@ -9,11 +9,6 @@ exports.load_database = function() {
     throw "Please provide a process.env.MONGODB_URI variable that points to the URL of the database.";
   } else {
     // Lets connect to our database using the DB server URL.
-    if (mongoose.connection.db) {
-      // Don't open another session if connection already exists.
-      console.log('A connection already exists');
-      return;
-    }
     mongoose.connect(process.env.MONGODB_URI, function(err) {
       if (err) {
         console.log(err);

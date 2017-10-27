@@ -12,14 +12,7 @@ var userSchema = Schema({
     sharedLists_edit: [{type: Schema.Types.ObjectId, ref: 'SharedList'}]
 });
 
-// var restaurantSchema = Schema({
-//     restaurant_name    : { type: String, required: true },
-//     user: {type: Schema.Types.ObjectId, ref: 'User'}
-// });
-
-// var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 var User = mongoose.model('User', userSchema);
-
 
 // make this available to our users in our Node applications
 module.exports = User;

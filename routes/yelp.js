@@ -14,7 +14,7 @@ router.get('/yelp', function(request, response) {
 
     User.findOne({email: email}).populate('sharedLists_own').populate('sharedLists_edit').exec(function(err, user) {
         if (err) {
-            console.log('err');
+            console.log(err);
         } else if(!user) {
             response.render('pages/yelp', {
                 login: login,
@@ -29,6 +29,7 @@ router.get('/yelp', function(request, response) {
                 name: name,
                 user: user
             });
+            return;
         }
     });
 });

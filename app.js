@@ -117,12 +117,11 @@ app.set('view engine', 'ejs');
 
 var exports = module.exports = {};
 
-var server = app.listen(app.get('port'), function() {
+var server = exports.server = app.listen(app.get('port'), function() {
   load_database.load_database();
   console.log('Node app is running on port', app.get('port'));
 });
 
-exports.server = server;
 exports.close = function() {
   server.close();
   load_database.close();
