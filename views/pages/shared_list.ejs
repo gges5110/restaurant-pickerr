@@ -21,49 +21,49 @@
                 <a hidden id="list_id">
                   <%= sharedList.id %>
                 </a>
-                <% } else { %>
-                  <h1>Weclome to Restaurant Pickerr!</h1>
+              <% } else { %>
+                <h1>Weclome to Restaurant Pickerr!</h1>
+              <% } %>
+              <div class="col-md-12">
+                <form class="form-control" action="javascript:void(0);">
+                  <div class="form-group">
+                    <label for="add_shared_list_input" class="control-label">Invite link:</label>
+                    <input type="text" value="<%= invite_link %>" id="invite_link_input" class="form-control"></input>
+                  </div>
+                  <button class="btn btn-primary" id="copy_btn" data-clipboard-target="#invite_link_input" data-toggle="tooltip" data-placement="right" title="Copy to clipboard">
+                    Copy
+                  </button>
+                </form>
+                <p>
+                  Owner:
+                  <% if(sharedList.owner.email == email) { %>
+                    You
+                  <% } else { %>
+                    <%= sharedList.owner.name %>
                   <% } %>
-                    <div class="col-md-12">
-                      <form class="form-control" action="javascript:void(0);">
-                        <div class="form-group">
-                          <label for="add_shared_list_input" class="control-label">Invite link:</label>
-                          <input type="text" value="<%= invite_link %>" id="invite_link_input" class="form-control"></input>
-                        </div>
-                        <button class="btn btn-primary" id="copy_btn" data-clipboard-target="#invite_link_input" data-toggle="tooltip" data-placement="right" title="Copy to clipboard">
-                  Copy
-                </button>
-                      </form>
-                      <p>
-                        Owner:
-                        <% if(sharedList.owner.email == email) { %>
-                          You
-                          <% } else { %>
-                            <%= sharedList.owner.name %>
-                              <% } %>
-                                <br/> Users:
-                                <% if(sharedList.users.length == 0) { %>
-                                  none
-                                  <% } else { %>
-                                    <% for (var user_index = 0; user_index < sharedList.users.length; ++user_index) { %>
-                                      <% if (user_index != sharedList.users.length - 1) {%>
-                                        <%= sharedList.users[user_index].name %>,
-                                          <% } else {%>
-                                            <%= sharedList.users[user_index].name %>
-                                              <% } %>
-                                                <% } %>
-                                                  <% } %>
-                                                    <br/>
+                <br/> Users:
+                <% if(sharedList.users.length == 0) { %>
+                  none
+                  <% } else { %>
+                    <% for (var user_index = 0; user_index < sharedList.users.length; ++user_index) { %>
+                      <% if (user_index != sharedList.users.length - 1) {%>
+                        <%= sharedList.users[user_index].name %>,
+                      <% } else {%>
+                        <%= sharedList.users[user_index].name %>
+                      <% } %>
+                    <% } %>
+                  <% } %>
+                  <br/>
 
-                                                    <% if(restaurants.length == 0) { %>
-                                                      Looks like it's pretty empty here! Go to <a href="/yelp">Search Yelp</a> and add some items!
-                                                      <% } else {%>
-                                                        <button type="submit" class="btn btn-outline-primary" id="pick_btn" data-toggle="tooltip" data-placement="right" title="Randomly pick one from list">
-                  Pick one!
-                </button>
-                                                        <% } %>
-                      </p>
-                    </div>
+                  <% if(restaurants.length == 0) { %>
+                    Looks like it's pretty empty here! Go to <a href="/yelp">Search Yelp</a> and add some items!
+                  <% } else {%>
+                    <button type="submit" class="btn btn-outline-primary" id="pick_btn" data-toggle="tooltip" data-placement="right" title="Randomly pick one from list">
+                      Pick one!
+                    </button>
+                  <% } %>
+                </p>
+              </div>
             </div>
           </div>
         </div>
