@@ -75,12 +75,37 @@
 
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
-            <div class="card-block">
-              <h4 class="card-title">Yelp Results
+            <div class="card card-block">
+              <h4 class="card-text">Yelp Results
                 <span class="tag tag-default tag-pill" id="number_of_results">0</span>
                 <span class="tag tag-success" id="category_label"></span>
                 <span class="tag tag-danger" id="location_label"></span>
+
+                <% if (login) { %>
+                  <div class="btn-group" role="group">
+
+                  <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle" id="select_list_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Bucket List
+                  </button>
+                  <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Lists You Own</h6>
+                    <% for(var i = 0; i < user.sharedLists_own.length; ++i) { %>
+                      <a class="dropdown-item" id="<%= user.sharedLists_own[i].id %>" href="javascript:void(0)">
+                        <%= user.sharedLists_own[i].name %>
+                      </a>
+                    <% } %>
+                    <div class="dropdown-divider"></div>
+                      <h6 class="dropdown-header">Lists Shared To You</h6>
+                        <% for(var i = 0; i < user.sharedLists_edit.length; ++i) { %>
+                          <a class="dropdown-item" id="<%= user.sharedLists_edit[i].id %>" href="javascript:void(0)">
+                            <%= user.sharedLists_edit[i].name %>
+                          </a>
+                        <% } %>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" id="default" href="javascript:void(0)">Bucket List</a>
+                    </div>
+                  </div>
+                <% } %>
               </h4>
 
               <table class="table table-striped table-hover" style="text-align: left" id="yelp_table">
@@ -90,40 +115,13 @@
                     <th>Rating</th>
                     <th>Category</th>
                     <th>Address</th>
-                    <th>
-                      <% if (login) { %>
-                        <div class="btn-group">
-
-                        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle" id="select_list_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Bucket List
-                        </button>
-                        <div class="dropdown-menu">
-                          <h6 class="dropdown-header">Lists You Own</h6>
-                          <% for(var i = 0; i < user.sharedLists_own.length; ++i) { %>
-                            <a class="dropdown-item" id="<%= user.sharedLists_own[i].id %>" href="javascript:void(0)">
-                              <%= user.sharedLists_own[i].name %>
-                            </a>
-                          <% } %>
-                          <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header">Lists Shared To You</h6>
-                              <% for(var i = 0; i < user.sharedLists_edit.length; ++i) { %>
-                                <a class="dropdown-item" id="<%= user.sharedLists_edit[i].id %>" href="javascript:void(0)">
-                                  <%= user.sharedLists_edit[i].name %>
-                                </a>
-                              <% } %>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" id="default" href="javascript:void(0)">Bucket List</a>
-                          </div>
-                        </div>
-                        <% } %>
-
-                    </th>
+                    <th>Add to List</th>
                   </tr>
                 </thead>
 
                 <tbody></tbody>
               </table>
-            </div>
+
           </div>
         </div>
       </div>
