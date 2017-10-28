@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var userSchema = Schema({
     name: String,
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: { type: String, required: false },
     admin: Boolean,
     restaurants: [{type: Schema.Types.ObjectId, ref: 'Restaurant'}],
     sharedLists_own: [{type: Schema.Types.ObjectId, ref: 'SharedList'}],
