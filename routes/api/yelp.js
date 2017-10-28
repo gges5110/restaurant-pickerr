@@ -16,13 +16,7 @@ if (process.env.YELP_CREDENTIALS_CONSUMER_KEY != null &&
   yelp_credentials.token_secret = process.env.YELP_CREDENTIALS_TOKEN_SECRET;
   console.log('Using Yelp credentials from env variables.')
 } else {
-  try {
-    yelp_credentials = require('../../credentials.js');
-    console.log('Using Yelp credentials from file.')
-  } catch (e) {
-    console.log("Please provide yelp credentials at the top level folder.");
-    throw(e);
-  }
+  throw 'Please put Yelp credentials in .env, learn more in README.md';
 }
 
 var Yelp = require('yelp');
@@ -47,7 +41,6 @@ router.get('/api/yelp', function(request, response) {
         lng = request.query.lng;
         latlng = lat.toString() + "," + lng.toString();
     }
-
 
     if (request.query.sort_mode) {
         sort_mode = request.query.sort_mode;
