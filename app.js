@@ -1,6 +1,4 @@
 var express = require('express');
-var http = require('http');
-
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 
@@ -37,6 +35,8 @@ var router_api_yelp = require('./routes/api/yelp.js');
 var router_db_shared_list_create = require('./routes/db/shared_list/create.js');
 var router_db_shared_list_delete = require('./routes/db/shared_list/delete.js');
 
+var router_auth_google = require('./routes/auth/google');
+
 var env = process.env.NODE_ENV || 'development';
 
 var forceSsl = function (req, res, next) {
@@ -46,10 +46,7 @@ var forceSsl = function (req, res, next) {
     return next();
  };
 
-
-
 var app = express();
-
 
 if (env === 'production') {
     app.use(forceSsl);
@@ -106,6 +103,11 @@ app.use(router_db_shared_list_delete);
 //              API ENDPOINT
 //------------------------------------
 app.use(router_api_yelp);
+
+//------------------------------------
+//              AUTH
+//------------------------------------
+app.use(router_auth_google);
 
 app.set('port', (process.env.PORT || 5000));
 
