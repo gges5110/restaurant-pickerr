@@ -68,7 +68,7 @@ router.get('/invite', function(request, response) {
         console.log("Please log in.");
         request.session.invite = true;
         request.session.invite_list_id = list_id;
-        response.redirect('/login');
+        response.redirect('/');
     }
 });
 

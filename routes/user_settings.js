@@ -10,6 +10,10 @@ router.get('/user_settings', function(request, response) {
         name = request.session.name;
     }
 
+    if (login == false) {
+      response.redirect('/');
+    }
+
     response.render('pages/user_settings', {
         login: login,
         email: email,

@@ -45,25 +45,29 @@ $(document).on('click', '#update_account_btn', function(event) {
 });
 
 $(document).on('click', '#delete_account_btn', function(event) {
-    var password = $('#delete_password_confirm_input').val();
-    NProgress.start();
-    $.ajax({
-        url: '/db/user/delete',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            email: $('#nav_email').attr('title'),
-            password: password
-        }),
-        success: function(data) {
-            if (data.status == 'error') {
-                toastr.warning(data.message);
-            } else {
-                toastr.success(data.message);
-                // Might want to wait for a second here.
-                window.location.href = "/login";
-            }
-            NProgress.done(true);
-        }
-    })
+  var email = $('#delete_confirm_input').val();
+  if (email != $('#nav_email').attr('title')) {
+    toastr.warning("Email doesn't match.");
+    return;
+  }
+
+  NProgress.start();
+  $.ajax({
+    url: '/db/user/delete',
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({
+      email: $('#nav_email').attr('title')
+    }),
+    success: function(data) {
+      if (data.status == 'error') {
+        toastr.warning(data.message);
+      } else {
+        toastr.success(data.message);
+        // Might want to wait for a second here.
+        window.location.href = "/";
+      }
+      NProgress.done(true);
+    }
+  })
 });
