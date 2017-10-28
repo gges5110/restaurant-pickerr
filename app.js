@@ -12,7 +12,6 @@ var load_database = require('./load_database');
 //          TEMPLATE ROUTING
 //------------------------------------
 var routes_index = require('./routes/index.js');
-var routes_login = require('./routes/login.js');
 var routes_logout = require('./routes/logout.js');
 var routes_user_settings = require('./routes/user_settings.js');
 var routes_yelp = require('./routes/yelp.js');
@@ -21,8 +20,6 @@ var router_shared_list = require('./routes/shared_list.js');
 var router_manage_shared_list = require('./routes/manage_shared_list.js');
 var router_invite = require('./routes/invite.js');
 
-var router_db_user_create = require('./routes/db/user/create.js');
-var router_db_user_login = require('./routes/db/user/login.js');
 var router_db_user_update_info = require('./routes/db/user/update_info.js');
 var router_db_user_delete = require('./routes/db/user/delete.js');
 
@@ -69,7 +66,6 @@ app.use(session({
 }));
 
 app.use(routes_index);
-app.use(routes_login);
 app.use(routes_logout);
 app.use(routes_user_settings);
 app.use(routes_yelp)
@@ -81,8 +77,6 @@ app.use(router_invite);
 //------------------------------------
 //       DATABASE OPERATIONS
 //------------------------------------
-app.use(router_db_user_create);
-app.use(router_db_user_login);
 app.use(router_db_user_update_info);
 app.use(router_db_user_delete);
 

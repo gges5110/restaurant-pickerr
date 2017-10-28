@@ -17,13 +17,9 @@ $(document).on('click', '#logout_btn', function(event) {
 
 $(document).on('click', '#update_account_btn', function(event) {
     var name = $('#update_name_input').val();
-    var password = $('#update_password_input').val();
-    var password_confirm = $('#update_password_confirm_input').val();
 
-    if (password == "" || name == "") {
-        toastr.warning("Name/Password can not be empty.");
-    } else if(password != password_confirm) {
-        toastr.warning("Passwords does not match.");
+    if (name == "") {
+        toastr.warning("Name can not be empty.");
     } else {
         NProgress.start();
         $.ajax({
@@ -32,8 +28,7 @@ $(document).on('click', '#update_account_btn', function(event) {
             contentType: 'application/json',
             data: JSON.stringify({
                 email: $('#nav_email').attr('title'),
-                name: name,
-                password: password
+                name: name
             }),
             success: function(data) {
                 if (data.status == 'error') {

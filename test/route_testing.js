@@ -40,11 +40,12 @@ describe('Basic route testing', () => {
       });
   });
 
-  it('it should GET login page', (done) => {
+  // We have removed this page, replaced by google OAuth login
+  it('it should not GET login page', (done) => {
     chai.request(app.server)
       .get('/login')
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(404);
         done();
       });
   });
