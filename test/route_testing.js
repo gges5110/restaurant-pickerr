@@ -7,12 +7,13 @@ let chaiHttp = require('chai-http');
 let should = chai.should();
 
 chai.use(chaiHttp);
+// Re import environment vairables
 require('dotenv').config()
+
 describe('Basic route testing', () => {
   var app;
   beforeEach(function () {
     delete require.cache[require.resolve('../app')];
-    // Re import environment vairables
     app = require('../app');
   });
   afterEach(function (done) {
@@ -48,6 +49,15 @@ describe('Basic route testing', () => {
       });
   });
 
+  it('it should POST logout page', (done) => {
+    chai.request(app.server)
+      .post('/logout')
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
   it('it should GET yelp page', (done) => {
     chai.request(app.server)
       .get('/yelp')
@@ -56,4 +66,6 @@ describe('Basic route testing', () => {
         done();
       });
   });
+
+  it('should check all routes get properly');
 });
