@@ -55,6 +55,7 @@ router.get('/auth/google/callback', function(request, response) {
                 } else {
                   request.session.email = email;
                   request.session.name = name;
+                  response.redirect('/yelp');
                 }
               });
             } else {
