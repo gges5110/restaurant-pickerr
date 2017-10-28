@@ -16,8 +16,14 @@
             <div class="container">
               <h1>Weclome to Bucketlist!</h1>
               <div class="col-md-12">
-                <p>Here is the list of restaurants you saved! </p>
-                <button type="submit" class="btn btn-outline-primary" id="pick_btn">Pick for me!</button>
+                <% if(restaurants.length == 0) { %>
+                  Looks like it's pretty empty here! Go to <a href="/yelp">Search Yelp</a> and add some items!
+                <% } else {%>
+                  <p>Here is the list of restaurants you saved! </p>
+                  <button type="submit" class="btn btn-outline-primary" id="pick_btn" data-toggle="tooltip" data-placement="right" title="Randomly pick one from list">
+                    Pick one!
+                  </button>
+                <% } %>
               </div>
             </div>
           </div>
