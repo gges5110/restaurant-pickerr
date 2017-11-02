@@ -17,6 +17,7 @@ var routes_user_settings = require('./routes/user_settings.js');
 var routes_yelp = require('./routes/yelp.js');
 var routes_bucketlist = require('./routes/bucketlist.js');
 var router_shared_list = require('./routes/shared_list.js');
+var router_trending = require('./routes/trending.js');
 var router_manage_shared_list = require('./routes/manage_shared_list.js');
 var router_invite = require('./routes/invite.js');
 
@@ -71,6 +72,7 @@ app.use(routes_user_settings);
 app.use(routes_yelp)
 app.use(routes_bucketlist);
 app.use(router_shared_list);
+app.use(router_trending);
 app.use(router_manage_shared_list);
 app.use(router_invite);
 
