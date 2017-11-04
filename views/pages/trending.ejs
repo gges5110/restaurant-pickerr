@@ -18,6 +18,9 @@
               <div class="col-md-12">
                 <p>
                   Show the popular restaurants here.
+                  <% for (var favorite_index = 0; favorite_index < favorites.length; ++favorite_index) { %>
+                    <%= favorites[favorite_index].restaurant.name %>
+                  <% } %>
                 </p>
               </div>
             </div>
