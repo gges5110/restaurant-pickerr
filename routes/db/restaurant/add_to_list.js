@@ -187,6 +187,7 @@ var createFavoriteRecord = function(restaurant, response) {
   new_favorite.save(function(err) {
     if (err) {
       console.log('Error occurred when saving favorite');
+      console.log(err);
     }
   })
 }
