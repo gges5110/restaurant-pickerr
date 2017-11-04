@@ -17,11 +17,32 @@
               <h1>Weclome to the trending page!</h1>
               <div class="col-md-12">
                 <p>
-                  Show the popular restaurants here.
-                  <% for (var favorite_index = 0; favorite_index < favorites.length; ++favorite_index) { %>
-                    <%= favorites[favorite_index].restaurant.name %>
-                  <% } %>
+                  Here are the most recently favorites.
                 </p>
+
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Restaurant</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% for (var favorite_index = 0; favorite_index < favorites.length; ++favorite_index) { %>
+                      <tr tabindex="<%= favorite_index %>">
+                        <td>
+                          <%= favorite_index %>
+                        </td>
+                        <td>
+                          <a href="<%=favorites[favorite_index].restaurant.url %>">
+                            <%= favorites[favorite_index].restaurant.name %>
+                          </a>
+                        </td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

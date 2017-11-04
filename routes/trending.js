@@ -16,7 +16,10 @@ router.get('/trending', function(request, response) {
   }
 
   // Get all the popular restaurants.
-  Favorite.find({}).populate('restaurant').exec(function(err, favorites) {
+  Favorite
+    .find({})
+    .populate({path: 'restaurant', options: { sort: { 'rating':-1 }}}
+      ).exec(function(err, favorites) {
     if (err) {
       //
     } else {
