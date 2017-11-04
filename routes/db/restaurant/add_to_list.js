@@ -186,10 +186,7 @@ var createFavoriteRecord = function(restaurant, response) {
   });
   new_favorite.save(function(err) {
     if (err) {
-      helper.send_response(response, 'Error occurred when saving favorite!', 0);
-      return;
-    } else {
-      return;
+      console.log('Error occurred when saving favorite');
     }
   })
 }

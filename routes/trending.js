@@ -23,7 +23,6 @@ router.get('/trending', function(request, response) {
     if (err) {
       //
     } else {
-      console.log(favorites);
       response.render('pages/trending', {
         login: login,
         email: email,
