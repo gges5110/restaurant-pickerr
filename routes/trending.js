@@ -18,11 +18,16 @@ router.get('/trending', function(request, response) {
   // Get all the popular restaurants.
   Favorite
     .find({})
-    .populate({path: 'restaurant', options: { sort: { 'rating':-1 }}}
-      ).exec(function(err, favorites) {
+    .populate('restaurant')
+    .limit(20)
+    .sort({time: -1})
+    .exec(function(err, favorites) {
     if (err) {
       //
     } else {
+      // According to https://github.com/Automattic/mongoose/issues/2202, sorting via populated subdocuments currently has bug.
+      // If required, sort the favorites array manually.
+
       response.render('pages/trending', {
         login: login,
         email: email,
